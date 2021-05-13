@@ -3,15 +3,15 @@
 #include <string.h>
 
 typedef struct{
-	int id;
 	int x;
 	int y;
+	float *distancia;
 }Entrega;
 
 void menu();
 
-void importarArchivoDeCoordenadas(char *nombre_archivo, Entrega *E, int numeroEntregas);
-//void distanciaEntreEntregas();
+Entrega *importarArchivoDeCoordenadas(char *nombre_archivo, Entrega *E);
+void distanciaEntreEntregas(Entrega *E);
 //void mostrar5EntregasMasCercanas();
 //void crearRuta();
 //void generarRutaAleatoria();
@@ -25,20 +25,15 @@ int main(){
 char nombre_archivo[100];
 int opcion, numeroEntregas;
 
-printf("\n\nIngrese numero de entregas: ");
-scanf("%d", &numeroEntregas);
-
-printf("\n\n");
-
-Entrega *E = (Entrega*) malloc(numeroEntregas * sizeof(Entrega));
+Entrega *E = NULL;
 
 
 
 	do{
 		menu(&opcion);
 		if(opcion == 0) break;
-		if(opcion == 1) importarArchivoDeCoordenadas(nombre_archivo, E, numeroEntregas);
-		//if(opcion == 2) distanciaEntreEntregas();
+		if(opcion == 1) E = importarArchivoDeCoordenadas(nombre_archivo, E);
+		if(opcion == 2) distanciaEntreEntregas(E);
 		//if(opcion == 3) mostrar5EntregasMasCercanas();
 		//if(opcion == 4) crearRuta();
 		//if(opcion == 5) generarRutaAleatoria();
