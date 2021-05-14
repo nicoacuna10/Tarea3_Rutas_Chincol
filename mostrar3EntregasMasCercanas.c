@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include "Map.h"
 
 typedef struct{
+    int id;
 	int x;
 	int y;
 	float *distancia;
@@ -17,9 +19,9 @@ int ordenarDeMenorAMayor(const void *a, const void *b)
     return *ptrA - *ptrB;
 }
 
-void mostrar3EntregasMasCercanas(Entrega *E, int numeroEntregas){
+void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
 
-    if(E == NULL){
+    if(Entregas_id == NULL){
         printf("Primero importar un archivo .txt !\n\n");
         return;
     }
@@ -35,12 +37,16 @@ void mostrar3EntregasMasCercanas(Entrega *E, int numeroEntregas){
     float *DistanciasEP = (float*)malloc(numeroEntregas * sizeof(float));
     int i, diferenciaX, diferenciaY;
 
-    for(i = 0; i < numeroEntregas; i++){
+    i = 0;
+    Entrega *registro1 = (Entrega*) firstMap(Entregas_id);
 
-        diferenciaX = x - E[i].x;
-        diferenciaY = y - E[i].y;
+    while(registro1 != NULL){
+        diferenciaX = x - registro1->x;
+        diferenciaY = y - registro1->y;
         DistanciasEP[i] = sqrt( pow(diferenciaX, 2) + pow(diferenciaY, 2) );
-        printf("%d | %.2f\n", i+1, DistanciasEP[i]);
+        printf("%.2f\n", DistanciasEP[i]);
+        registro1 = (Entrega*) nextMap(Entregas_id);
+        i++;
     }
 
     float *CopiaDistanciasEP = (float *)malloc(numeroEntregas * sizeof(float));
@@ -107,6 +113,9 @@ void mostrar3EntregasMasCercanas(Entrega *E, int numeroEntregas){
             }
         }
     }
+
+    free(DistanciasEP);
+    free(CopiaDistanciasEP);
 
     return;
 
