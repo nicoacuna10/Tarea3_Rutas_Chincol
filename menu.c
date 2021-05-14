@@ -11,7 +11,7 @@ void menu(int *opcion){
         printf(" ------------------------------------------\n");
         printf("| Opcion 1: Importar archivo de coordeandas|\n");
         printf("| Opcion 2: Distancia entre entregas       |\n");
-        printf("| Opcion 3: Mostrar 5 entregas mas cercanas|\n");
+        printf("| Opcion 3: Mostrar 3 entregas mas cercanas|\n");
         printf("| Opcion 4: Crear ruta                     |\n");
         printf("| Opcion 5: Generar ruta aleatoria         |\n");
         printf("| Opcion 6: Mejorar ruta                   |\n");

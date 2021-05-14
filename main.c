@@ -10,9 +10,9 @@ typedef struct{
 
 void menu();
 
-Entrega *importarArchivoDeCoordenadas(char *nombre_archivo, Entrega *E);
+Entrega *importarArchivoDeCoordenadas(char *nombre_archivo, Entrega *E, int *numeroEntregas);
 void distanciaEntreEntregas(Entrega *E);
-//void mostrar5EntregasMasCercanas();
+void mostrar3EntregasMasCercanas(Entrega *E, int numeroEntregas);
 //void crearRuta();
 //void generarRutaAleatoria();
 //void mejorarRuta();
@@ -23,8 +23,7 @@ void distanciaEntreEntregas(Entrega *E);
 int main(){
 
 char nombre_archivo[100];
-int opcion, numeroEntregas;
-
+int opcion, numeroEntregas = 0;
 Entrega *E = NULL;
 
 
@@ -32,9 +31,9 @@ Entrega *E = NULL;
 	do{
 		menu(&opcion);
 		if(opcion == 0) break;
-		if(opcion == 1) E = importarArchivoDeCoordenadas(nombre_archivo, E);
+		if(opcion == 1) E = importarArchivoDeCoordenadas(nombre_archivo, E, &numeroEntregas);
 		if(opcion == 2) distanciaEntreEntregas(E);
-		//if(opcion == 3) mostrar5EntregasMasCercanas();
+		if(opcion == 3) mostrar3EntregasMasCercanas(E, numeroEntregas);
 		//if(opcion == 4) crearRuta();
 		//if(opcion == 5) generarRutaAleatoria();
 		//if(opcion == 6) mejorarRuta();

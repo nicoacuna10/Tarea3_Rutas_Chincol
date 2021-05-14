@@ -13,7 +13,7 @@ typedef struct{
     float *distancia;
 }Entrega;
 
-Entrega *importarArchivoDeCoordenadas(char *nombre_archivo, Entrega *E){
+Entrega *importarArchivoDeCoordenadas(char *nombre_archivo, Entrega *E, int *numeroEntregas){
 
     if(E != NULL){
         return E;
@@ -29,17 +29,16 @@ Entrega *importarArchivoDeCoordenadas(char *nombre_archivo, Entrega *E){
         return E;
     }
 
-    int numeroEntregas;
     printf("\nIngrese numero de entregas: ");
-    scanf("%d", &numeroEntregas);
+    scanf("%d", &(*numeroEntregas) );
 
-    E = (Entrega*)malloc(numeroEntregas * sizeof(Entrega));
+    E = (Entrega*)malloc( (*numeroEntregas) * sizeof(Entrega));
 
     char *aux, linea[21];
     Coordenadas auxCoordenada[2];
 
     int i, j, l, posicion;
-    for(i = 0; i < numeroEntregas; i++){
+    for(i = 0; i < *numeroEntregas; i++){
         aux = fgets(linea, 21, fp);
 
         j = 0;
@@ -73,10 +72,10 @@ Entrega *importarArchivoDeCoordenadas(char *nombre_archivo, Entrega *E){
 
     int diferenciaX, diferenciaY;
 
-    for(i = 0; i < numeroEntregas; i++){
-        E[i].distancia = (float*)malloc( numeroEntregas *sizeof(float));
+    for(i = 0; i < *numeroEntregas; i++){
+        E[i].distancia = (float*)malloc( *numeroEntregas *sizeof(float));
 
-        for(j = 0; j < numeroEntregas; j++){
+        for(j = 0; j < *numeroEntregas; j++){
             
             if(i != j){
                 diferenciaX = E[j].x - E[i].x;
