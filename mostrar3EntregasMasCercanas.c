@@ -20,45 +20,54 @@ int ordenarDeMenorAMayor(const void *a, const void *b)
 }
 
 void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
-
+	
+    // Si no se encuentra inicializado del mapa, se cierra la función. //
     if(Entregas_id == NULL){
         printf("Primero importar un archivo .txt !\n\n");
         return;
     }
 
+    // Declaración de variables //
     int x, y;
-
+    int i, diferenciaX, diferenciaY;
+    
+    // Se pide al usuario que ingrese las coordenadas de su ubicación actual. //
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
 
     printf("Ingrese coordenada y: ");
     scanf("%d", &y);
-
+	
+    /* Se incializa un arreglo para almacenar las distancias entre las entregas
+       y la posición actual. */
     float *DistanciasEP = (float*)malloc(numeroEntregas * sizeof(float));
-    int i, diferenciaX, diferenciaY;
-
+    
+    /* Se calculan las distancias entre las entregas y la posción actual. Se almacenan
+       en cada casilla en relación al id, considerando que el primer elemento del mapa
+       es el id mayor.*/
     i = 0;
     Entrega *registro1 = (Entrega*) firstMap(Entregas_id);
-
     while(registro1 != NULL){
         diferenciaX = x - registro1->x;
         diferenciaY = y - registro1->y;
-        DistanciasEP[i] = sqrt( pow(diferenciaX, 2) + pow(diferenciaY, 2) );
-        printf("%.2f\n", DistanciasEP[i]);
+        DistanciasEP[(numeroEntregas-1) - i] = sqrt( pow(diferenciaX, 2) + pow(diferenciaY, 2) );
+        printf("%.2f\n", DistanciasEP[(numeroEntregas-1) - i]);
         registro1 = (Entrega*) nextMap(Entregas_id);
         i++;
     }
-
+    
+    /* Se dimensiona otro arreglo y se hace una copia de las distancias, esto se hace para no perder
+       la información de la entrega asociada a la distancia.*/
     float *CopiaDistanciasEP = (float *)malloc(numeroEntregas * sizeof(float));
 
     for(i = 0; i < numeroEntregas; i++){
         CopiaDistanciasEP[i] = DistanciasEP[i];
     }
 
-
+    // Se ordena el arreglo de menor a mayor (distancias más cortas a las más lejanas). //
     qsort( CopiaDistanciasEP, numeroEntregas, sizeof(float), ordenarDeMenorAMayor);
 
-
+    // Se imprime por pantalla las 3 entregas más cercanas a la posición actual. //
     printf(" ------------------------------------\n");
     printf("| ID  | DISTANCIA A POSICION ACTUAL  |\n");
     printf(" ------------------------------------\n");
@@ -114,6 +123,7 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
         }
     }
 
+    // Se libera memoria de los arreglos dinámicos. //
     free(DistanciasEP);
     free(CopiaDistanciasEP);
 
