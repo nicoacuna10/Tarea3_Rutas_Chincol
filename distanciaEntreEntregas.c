@@ -11,15 +11,18 @@ typedef struct{
 }Entrega;
 
 void distanciaEntreEntregas(Map *Entregas_id){
-
+	
+    // Si no se encuentra inicializado el mapa, se cierra la función. // 
     if(Entregas_id == NULL){
         printf("Primero importar un archivo .txt !\n\n");
         return;
     }
-
+    
+    // Declaración de variables //
     int id1, id2;
     float distancia = 0; 
 
+    // Se pide al usuario que ingrese id's de dos entregas. //
     printf("Ingrese id de entrega 1: ");
     scanf("%d", &id1);
 
@@ -31,6 +34,10 @@ void distanciaEntreEntregas(Map *Entregas_id){
         scanf("%d", &id2);
     }
 
+    /* Se busca en el mapa la información de la entrega del primer id ingresado.
+       Se guarda en la variable distancia la distancia entre la entrega del primer
+       id y la entrega del segundo id. Finalmente se imprime por pantalla los numeros
+       de id's y la distancia entre ellos.*/
     Entrega *registro1 = (Entrega*) searchMap(Entregas_id, &id1);
 
     distancia = registro1->distancia[id2-1];
