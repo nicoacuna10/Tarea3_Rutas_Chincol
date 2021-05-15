@@ -11,6 +11,12 @@ typedef struct{
 	float *distancia;
 }Entrega;
 
+typedef struct{
+    char nombre[100];
+    int *idEntregas;
+    float distanciaTotal;
+}Ruta;
+
 void menu();
 
 void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *numeroEntregas);
@@ -27,7 +33,13 @@ int main(){
 
 char nombre_archivo[100];
 int opcion, numeroEntregas = 0;
+
+// Inicialización del mapa en NULL. //
 Map *Entregas_id = NULL;
+	
+/* Creación de Lista que almacena las rutas creadas o modificadas por el usuario, o generadas aleatoriamente.
+   Almacena datos "Ruta" que contienen el nombre de la ruta, un arreglo que almacena los id's de las entregas
+   en relación del recorrido, y la distancia total.*/
 List *ListaDeRutasCreadas = createList();
 
 
