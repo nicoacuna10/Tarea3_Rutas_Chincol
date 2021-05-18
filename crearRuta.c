@@ -92,7 +92,7 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
     l = 0;
 
     printf(" ------------------------------------\n");
-    printf("| ID  | DISTANCIA A POSICION ACTUAL  |\n");
+    printf("| ID  | DISTANCIA A POSICION ACTUAL (%d , %d) |\n", x, y);
     printf(" ------------------------------------\n");
 
     for( i = 0; i < numeroEntregas; i++){
@@ -120,6 +120,12 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
     // Se pide al usuario que ingrese id de entrega.//
     printf("\nIngrese id de entrega: ");
     scanf("%d", &id);
+
+    while(id < 1 || id > numeroEntregas){
+        printf("\nIngrese id valido: ");
+        printf("%d", &id);
+    }
+
     // En la posición id menos 1 se indica con un número 1 que ya se utilizó. //
     marcador[id-1] = 1;
 
@@ -160,7 +166,7 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
 	// Se imprime por pantlla las distancias hacia las entregas disponibles. //
 
         printf(" ------------------------------------\n");
-        printf("| ID  | DISTANCIA A POSICION ACTUAL  |\n");
+        printf("| ID  | DISTANCIA DESDE ENTREGRA %d      |\n", id);
         printf(" ------------------------------------\n");
 
         for( i = 0; i < numeroEntregas; i++){
@@ -197,7 +203,7 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
             do{
                 printf("\nIngrese otro id: ");
                 scanf("%d", &id);
-            }while(marcador[id-1] == 1);
+            }while(marcador[id-1] == 1 && (id < 1 || id > numeroEntregas));
         }
 
         // Se almacena en el arreglo el id ingresado y se suma la distancia acumulada. //	
@@ -229,7 +235,8 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
         if(i < numeroEntregas-1) printf(" - ");
     }
 
-    printf("          %.2f |", R->distanciaTotal);
+    printf(" |          %.2f |\n", R->distanciaTotal);
+    printf(" ------------------------------------------------------------\n");
 
     // Se pide al usuario que ingrese un nombre para la ruta. //
     printf("\nIngrese nombre de ruta: ");

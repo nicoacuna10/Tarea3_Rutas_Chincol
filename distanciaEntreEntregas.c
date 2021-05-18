@@ -10,7 +10,7 @@ typedef struct{
     float *distancia;
 }Entrega;
 
-void distanciaEntreEntregas(Map *Entregas_id){
+void distanciaEntreEntregas(Map *Entregas_id, int numeroEntregas){
 	
     // Si no se encuentra inicializado el mapa, se cierra la función. // 
     if(Entregas_id == NULL){
@@ -26,11 +26,16 @@ void distanciaEntreEntregas(Map *Entregas_id){
     printf("Ingrese id de entrega 1: ");
     scanf("%d", &id1);
 
-    printf("Ingrese id de entrega 2: ");
+    while(id1 < 1 || id1 > numeroEntregas){
+        printf("\nIngrese id valido: ");
+        scanf("%d", &id1);
+    }
+
+    printf("\nIngrese id de entrega 2: ");
     scanf("%d", &id2);
 
-    while(id1 == id2){
-        printf("Ingrese id distinto: ");
+    while( id1 == id2 || id2 < 1 || id2 > numeroEntregas ){
+        printf("\nIngrese id valido: ");
         scanf("%d", &id2);
     }
 
