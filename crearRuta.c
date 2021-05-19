@@ -26,7 +26,7 @@ int ordenar(const void *a, const void *b)
     return *ptrA - *ptrB;
 }
 
-void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
+void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas, int *numeroRutas){
 
     // Si no se encuentra inicializado el mapa, se cierra la función. //
     if(Entregas_id == NULL){
@@ -91,9 +91,9 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
 
     l = 0;
 
-    printf(" ------------------------------------\n");
-    printf("| ID  | DISTANCIA A POSICION ACTUAL (%d , %d) |\n", x, y);
-    printf(" ------------------------------------\n");
+    printf(" -------------------------------------------\n");
+    printf("| ID  | DISTANCIA A POSICION ACTUAL         |\n");
+    printf(" -------------------------------------------\n");
 
     for( i = 0; i < numeroEntregas; i++){
 
@@ -108,10 +108,10 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
 
                 printf(" | %.2f", DistanciasEP[j]);
                 sprintf(num, "%f", DistanciasEP[j]);
-                espacios = 32 - strlen(num);
+                espacios = 39 - strlen(num);
                 for ( k = 0; k < espacios; k++) printf(" ");
 
-                printf(" |\n ------------------------------------\n");
+                printf(" |\n -------------------------------------------\n");
 
             }
         }
@@ -165,9 +165,15 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
 	    
 	// Se imprime por pantlla las distancias hacia las entregas disponibles. //
 
-        printf(" ------------------------------------\n");
-        printf("| ID  | DISTANCIA DESDE ENTREGRA %d      |\n", id);
-        printf(" ------------------------------------\n");
+        if( id < 10){
+            printf(" ------------------------------------\n");
+            printf("| ID  | DISTANCIA DESDE ENTREGRA %d   |\n", id);
+            printf(" ------------------------------------\n");
+        }else{
+            printf(" ------------------------------------\n");
+            printf("| ID  | DISTANCIA DESDE ENTREGRA %d  |\n", id);
+            printf(" ------------------------------------\n");
+        }
 
         for( i = 0; i < numeroEntregas; i++){
 
@@ -203,7 +209,8 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
             do{
                 printf("\nIngrese otro id: ");
                 scanf("%d", &id);
-            }while(marcador[id-1] == 1 && (id < 1 || id > numeroEntregas));
+            }while(marcador[id-1] == 1 || id < 1 || id > numeroEntregas);
+            marcador[id-1] = 1;
         }
 
         // Se almacena en el arreglo el id ingresado y se suma la distancia acumulada. //	
@@ -226,17 +233,35 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
     R->distanciaTotal += distancia;
 
     // Se imprime por pantalla la ruta (secuencia de id's de cada entrega) y la distancia total recorrida. //
-    printf(" ------------------------------------------------------------\n");
-    printf("| RUTA                           | DISTANCIA TOTAL RECORRIDA |\n");
-    printf(" ------------------------------------------------------------\n| ");
+    if(numeroEntregas < 10){
+        espacios = (numeroEntregas*2 - 1);
+    }else espacios = (numeroEntregas-9)*3 + 17;
+    printf(" ");
+    for( k = 0; k < espacios + 30; k++) printf("-");
+    printf("\n");
+
+    printf("| RUTA");
+    for( k = 0; k < espacios - 4; k++) printf(" ");
+    printf(" | DISTANCIA TOTAL RECORRIDA |\n");
+
+    printf(" ");
+    for( k = 0; k < espacios + 30; k++) printf("-");
+    printf("\n| ");
 
     for( i = 0; i < numeroEntregas; i++){
         printf("%d", R->idEntregas[i]);
-        if(i < numeroEntregas-1) printf(" - ");
+        if(i < numeroEntregas-1) printf("-");
     }
 
-    printf(" |          %.2f |\n", R->distanciaTotal);
-    printf(" ------------------------------------------------------------\n");
+    printf(" | %.2f", R->distanciaTotal);
+    sprintf(num, "%f", R->distanciaTotal);
+    int espacios2 = 29 - strlen(num);
+    for( k = 0; k < espacios2; k++) printf(" ");
+    printf(" |\n");
+    
+    printf(" ");
+    for( k = 0; k < espacios + 30; k++) printf("-");
+    printf("\n");
 
     // Se pide al usuario que ingrese un nombre para la ruta. //
     printf("\nIngrese nombre de ruta: ");
@@ -244,6 +269,8 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
 
     // Se agrega la ruta a la lista. //
     pushBack(ListaDeRutasCreadas, R);
+
+    (*numeroRutas)++;
 
     return;
 }

@@ -18,7 +18,7 @@ typedef struct{
     float distanciaTotal;
 }Ruta;
 
-void generarRutaAleatoria(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas){
+void generarRutaAleatoria(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas, int *numeroRutas){
 
     // Si el mapa no se encuentra inicializado, se cierra la función //
     if(Entregas_id == NULL){
@@ -109,17 +109,38 @@ void generarRutaAleatoria(Map *Entregas_id, List *ListaDeRutasCreadas, int numer
     R->distanciaTotal += distancia;
 
     // Se imprime por pantalla la ruta (secuencia de id's de cada entrega) y la distancia total recorrida. //
-    printf(" ------------------------------------------------------------\n");
-    printf("| RUTA                           | DISTANCIA TOTAL RECORRIDA |\n");
-    printf(" ------------------------------------------------------------\n| ");
+    int espacios, espacios2, k;
+    char num[10];
+
+    if(numeroEntregas < 10){
+        espacios = (numeroEntregas*2 - 1);
+    }else espacios = (numeroEntregas-9)*3 + 17;
+    printf(" ");
+    for( k = 0; k < espacios + 30; k++) printf("-");
+    printf("\n");
+
+    printf("| RUTA");
+    for( k = 0; k < espacios - 4; k++) printf(" ");
+    printf(" | DISTANCIA TOTAL RECORRIDA |\n");
+
+    printf(" ");
+    for( k = 0; k < espacios + 30; k++) printf("-");
+    printf("\n| ");
 
     for( i = 0; i < numeroEntregas; i++){
         printf("%d", R->idEntregas[i]);
-        if(i < numeroEntregas-1) printf(" - ");
+        if(i < numeroEntregas-1) printf("-");
     }
 
-    printf(" |          %.2f |\n", R->distanciaTotal);
-    printf(" ------------------------------------------------------------\n");
+    printf(" | %.2f", R->distanciaTotal);
+    sprintf(num, "%f", R->distanciaTotal);
+    espacios2 = 29 - strlen(num);
+    for( k = 0; k < espacios2; k++) printf(" ");
+    printf(" |\n");
+    
+    printf(" ");
+    for( k = 0; k < espacios + 30; k++) printf("-");
+    printf("\n");
 
     // Se pide al usuario que ingrese un nombre para la ruta. //
     printf("\nIngrese nombre de ruta: ");
@@ -127,6 +148,8 @@ void generarRutaAleatoria(Map *Entregas_id, List *ListaDeRutasCreadas, int numer
 
     // Se agrega la ruta a la lista. //
     pushBack(ListaDeRutasCreadas, R);
+
+    (*numeroRutas)++;
 
     return; 
 
