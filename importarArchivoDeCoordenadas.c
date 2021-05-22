@@ -61,6 +61,28 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
 
     printf("\nIngrese numero de entregas: ");
     scanf("%d", &(*numeroEntregas) );
+    getchar();
+
+    //Se corrobora que el archivo ingresado tenga mayor o igual entregas a 'numeroEntregas'//
+    int contador = 1;
+    char cadena[60];
+    while( (fgets(cadena,60, fp) ) != NULL){
+        contador++;
+        memset(cadena, '\0', 60);
+    }
+
+    //Se quita contador menos uno por el salto de linea al final del archivo, implementado para correcta lectura//
+    contador = contador - 1;
+    //Si contador es mayor, usuari@ está entregand entrada errada//
+    if( (*numeroEntregas) > contador){
+        printf("Numero de entregas es mayor al numero que posee el archivo txt ingresado: %d-%d\n",*numeroEntregas, contador);
+        printf("Ingrese de nuevo a la funcion y coloque archivo txt adecuado\n\n");
+        rewind(fp);
+        return;
+    }
+
+    //Se vuelve al inicio indicador de lecutra del archivo txt, con el fin de procesar datos//
+    rewind(fp);
 
     /*Creación de mapa que almacena el id de la entrega, las coordenadas x e y, y un arreglo dinámico
       con las distancias entre las otras entregas. La clave utilizada para acceder a cada entrega es
