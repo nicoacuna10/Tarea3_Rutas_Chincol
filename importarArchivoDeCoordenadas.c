@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -59,9 +60,20 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
         return;
     }
 
-    printf("\nIngrese numero de entregas: ");
-    scanf("%d", &(*numeroEntregas) );
-    getchar();
+    bool entradaValida = false;
+    while(entradaValida == false){
+        printf("\nIngrese numero de entregas: ");
+        scanf("%d", &(*numeroEntregas) );
+        getchar();
+        if( *numeroEntregas > 0)
+            entradaValida = true;
+        else{
+            printf("\n -------------------------------------\n");
+            printf("|Entrada no valida!                   |\n");
+            printf("|Se debe ingresar numero mayor a cero |\n");
+            printf(" -------------------------------------\n\n");
+        }
+    }
 
     //Se corrobora que el archivo ingresado tenga mayor o igual entregas a 'numeroEntregas'//
     int contador = 1;
@@ -75,8 +87,10 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
     contador = contador - 1;
     //Si contador es mayor, usuari@ está entregand entrada errada//
     if( (*numeroEntregas) > contador){
-        printf("Numero de entregas es mayor al numero que posee el archivo txt ingresado: %d-%d\n",*numeroEntregas, contador);
-        printf("Ingrese de nuevo a la funcion y coloque archivo txt adecuado\n\n");
+        printf(" \n ---------------------------------------------------------------------------------\n");
+        printf("|Numero de entregas es mayor al numero que posee el archivo txt ingresado: %d - %d|\n",*numeroEntregas, contador);
+        printf("|Ingrese de nuevo a la funcion y coloque archivo txt adecuado.                    |\n");
+        printf(" ---------------------------------------------------------------------------------\n\n");
         rewind(fp);
         return;
     }
