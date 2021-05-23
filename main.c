@@ -24,9 +24,9 @@ void distanciaEntreEntregas(Map *Entregas_id, int numeroEntregas);
 void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas);
 void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas, int *numeroRutas);
 void generarRutaAleatoria(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas, int *numeroRutas);
-//void mejorarRuta();
+void mejorarRuta(List* ListaDeRutasCreadas, int numeroRutas);
 void mostrarRutas(List* ListaDeRutasCreadas, int numeroRutas);
-//void mejorRuta();
+//void mejorRuta(List* ListaDeRutasCreadas, int numeroRutas);
 
 
 int main(){
@@ -52,7 +52,7 @@ List *ListaDeRutasCreadas = createList();
 		if(opcion == 3) mostrar3EntregasMasCercanas(Entregas_id, numeroEntregas);
 		if(opcion == 4) crearRuta(Entregas_id, ListaDeRutasCreadas, numeroEntregas, &numeroRutas);
 		if(opcion == 5) generarRutaAleatoria(Entregas_id, ListaDeRutasCreadas, numeroEntregas, &numeroRutas);
-		//if(opcion == 6) mejorarRuta();
+		if(opcion == 6) mejorarRuta(ListaDeRutasCreadas, numeroRutas);
 		if(opcion == 7) mostrarRutas(ListaDeRutasCreadas, numeroRutas);
 		//if(opcion == 8) mejorRuta();
 	}while(opcion != 0);
