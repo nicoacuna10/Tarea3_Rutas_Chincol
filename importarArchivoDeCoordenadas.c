@@ -49,6 +49,8 @@ int lower_than_int(void * key1, void * key2) {
 }
 
 void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *numeroEntregas){
+
+    if(*Entregas_id != NULL) return;
 	
     printf("Ingrese nombre archivo .txt: ");
     scanf("%[^\n]s", nombre_archivo);

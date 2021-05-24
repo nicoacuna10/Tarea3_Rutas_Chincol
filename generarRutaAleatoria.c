@@ -151,6 +151,8 @@ void generarRutaAleatoria(Map *Entregas_id, List *ListaDeRutasCreadas, int numer
 
     (*numeroRutas)++;
 
+    getchar();
+
     return; 
 
 }

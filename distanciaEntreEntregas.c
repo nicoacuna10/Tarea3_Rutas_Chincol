@@ -49,4 +49,7 @@ void distanciaEntreEntregas(Map *Entregas_id, int numeroEntregas){
 
     printf("La distancia entre la entrega %d y %d es: %.2f\n\n", id1, id2, distancia);
 
+    getchar();
+
+    return;
 }

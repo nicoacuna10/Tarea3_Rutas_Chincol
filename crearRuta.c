@@ -272,5 +272,7 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas, 
 
     (*numeroRutas)++;
 
+    getchar();
+
     return;
 }

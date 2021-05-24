@@ -127,6 +127,8 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
     free(DistanciasEP);
     free(CopiaDistanciasEP);
 
+    getchar();
+    
     return;
 
 }

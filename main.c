@@ -31,16 +31,16 @@ void mostrarRutas(List* ListaDeRutasCreadas, int numeroRutas);
 
 int main(){
 
-char nombre_archivo[100];
-int opcion, numeroEntregas = 0, numeroRutas = 0;
+	char nombre_archivo[100];
+	int opcion, numeroEntregas = 0, numeroRutas = 0;
 
-// Inicialización del mapa en NULL. //
-Map *Entregas_id = NULL;
+	// Inicialización del mapa en NULL. //
+	Map *Entregas_id = NULL;
 	
-/* Creación de Lista que almacena las rutas creadas o modificadas por el usuario, o generadas aleatoriamente.
-   Almacena datos "Ruta" que contienen el nombre de la ruta, un arreglo que almacena los id's de las entregas
-   en relación del recorrido, y la distancia total.*/
-List *ListaDeRutasCreadas = createList();
+	/* Creación de Lista que almacena las rutas creadas o modificadas por el usuario, o generadas aleatoriamente.
+   	   Almacena datos "Ruta" que contienen el nombre de la ruta, un arreglo que almacena los id's de las entregas
+       en relación del recorrido, y la distancia total.*/
+	List *ListaDeRutasCreadas = createList();
 
 
 
@@ -61,7 +61,9 @@ List *ListaDeRutasCreadas = createList();
 	printf("| Adios !                    |\n");
 	printf("| Que tenga buen dia.        |\n");
 	printf(" ----------------------------\n\n");
-	return 0;
+
+	free(Entregas_id);
+	free(ListaDeRutasCreadas);
 
 	return 0;
 }
