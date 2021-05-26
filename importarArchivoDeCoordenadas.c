@@ -13,24 +13,6 @@ typedef struct{
 }Entrega;
 
 /*
-  función para comparar claves de tipo string
-  retorna 1 si son iguales
-*/
-int is_equal_string(void * key1, void * key2) {
-    if(strcmp((char*)key1, (char*)key2)==0) return 1;
-    return 0;
-}
-
-/*
-  función para comparar claves de tipo string
-  retorna 1 si son key1<key2
-*/
-int lower_than_string(void * key1, void * key2) {
-    if(strcmp((char*)key1, (char*)key2) < 0) return 1;
-    return 0;
-}
-
-/*
   función para comparar claves de tipo int
   retorna 1 si son iguales
 */

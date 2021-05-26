@@ -15,17 +15,37 @@ typedef struct{
     char nombre[100];
     int *idEntregas;
     float distanciaTotal;
+	int x;
+	int y;
 }Ruta;
+
+/*
+  función para comparar claves de tipo string
+  retorna 1 si son iguales
+*/
+int is_equal_string(void * key1, void * key2) {
+    if(strcmp((char*)key1, (char*)key2)==0) return 1;
+    return 0;
+}
+
+/*
+  función para comparar claves de tipo string
+  retorna 1 si son key1<key2
+*/
+int lower_than_string(void * key1, void * key2) {
+    if(strcmp((char*)key1, (char*)key2) < 0) return 1;
+    return 0;
+}
 
 void menu();
 
 void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *numeroEntregas);
 void distanciaEntreEntregas(Map *Entregas_id, int numeroEntregas);
 void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas);
-void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas, int *numeroRutas);
-void generarRutaAleatoria(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas, int *numeroRutas);
-void mejorarRuta(List* ListaDeRutasCreadas, int numeroRutas);
-void mostrarRutas(List* ListaDeRutasCreadas, int numeroRutas);
+void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *numeroRutas);
+void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *numeroRutas);
+void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int numeroRutas);
+void mostrarRutas(Map *Rutas_nombre, int numeroRutas);
 //void mejorRuta(List* ListaDeRutasCreadas, int numeroRutas);
 
 
@@ -37,10 +57,12 @@ int main(){
 	// Inicialización del mapa en NULL. //
 	Map *Entregas_id = NULL;
 	
-	/* Creación de Lista que almacena las rutas creadas o modificadas por el usuario, o generadas aleatoriamente.
+	/* Creación de Mapa que almacena las rutas creadas o modificadas por el usuario, o generadas aleatoriamente.
    	   Almacena datos "Ruta" que contienen el nombre de la ruta, un arreglo que almacena los id's de las entregas
-       en relación del recorrido, y la distancia total.*/
-	List *ListaDeRutasCreadas = createList();
+       en relación del recorrido, la distancia total, y las coordenadas de la posición inicial. La clave es el
+	   nombre de la ruta. */
+	Map *Rutas_nombre = createMap(is_equal_string);
+	setSortFunction(Rutas_nombre, lower_than_string);
 
 
 
@@ -50,10 +72,10 @@ int main(){
 		if(opcion == 1) importarArchivoDeCoordenadas(nombre_archivo, &Entregas_id, &numeroEntregas);
 		if(opcion == 2) distanciaEntreEntregas(Entregas_id, numeroEntregas);
 		if(opcion == 3) mostrar3EntregasMasCercanas(Entregas_id, numeroEntregas);
-		if(opcion == 4) crearRuta(Entregas_id, ListaDeRutasCreadas, numeroEntregas, &numeroRutas);
-		if(opcion == 5) generarRutaAleatoria(Entregas_id, ListaDeRutasCreadas, numeroEntregas, &numeroRutas);
-		if(opcion == 6) mejorarRuta(ListaDeRutasCreadas, numeroRutas);
-		if(opcion == 7) mostrarRutas(ListaDeRutasCreadas, numeroRutas);
+		if(opcion == 4) crearRuta(Entregas_id, Rutas_nombre, numeroEntregas, &numeroRutas);
+		if(opcion == 5) generarRutaAleatoria(Entregas_id, Rutas_nombre, numeroEntregas, &numeroRutas);
+		if(opcion == 6) mejorarRuta(Entregas_id, Rutas_nombre, numeroEntregas, numeroRutas);
+		if(opcion == 7) mostrarRutas(Rutas_nombre, numeroRutas);
 		//if(opcion == 8) mejorRuta();
 	}while(opcion != 0);
 
@@ -63,7 +85,7 @@ int main(){
 	printf(" ----------------------------\n\n");
 
 	free(Entregas_id);
-	free(ListaDeRutasCreadas);
+	free(Rutas_nombre);
 
 	return 0;
 }

@@ -3,7 +3,6 @@
 #include <string.h>
 #include <math.h>
 #include "Map.h"
-#include "list.h"
 
 typedef struct{
 	int id;
@@ -16,6 +15,8 @@ typedef struct{
     char nombre[100];
     int *idEntregas;
     float distanciaTotal;
+    int x;
+	int y;
 }Ruta;
 
 int ordenar(const void *a, const void *b)
@@ -26,7 +27,7 @@ int ordenar(const void *a, const void *b)
     return *ptrA - *ptrB;
 }
 
-void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas, int *numeroRutas){
+void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *numeroRutas){
 
     // Si no se encuentra inicializado el mapa, se cierra la función. //
     if(Entregas_id == NULL){
@@ -88,6 +89,8 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas, 
     Ruta *R = (Ruta*)malloc(sizeof(Ruta));
     R->idEntregas = (int*)malloc(numeroEntregas * sizeof(int));
     R->distanciaTotal = 0;
+    R->x = x;
+    R->y = y;
 
     l = 0;
 
@@ -267,10 +270,13 @@ void crearRuta(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas, 
     printf("\nIngrese nombre de ruta: ");
     scanf("%s", R->nombre);
 
-    // Se agrega la ruta a la lista. //
-    pushBack(ListaDeRutasCreadas, R);
+    // Se agrega la ruta al mapa de rutas. //
+    insertMap(Rutas_nombre, R->nombre, R);
 
     (*numeroRutas)++;
+
+    free(DistanciasEP);
+    free(CopiaDistanciasEP);
 
     getchar();
 

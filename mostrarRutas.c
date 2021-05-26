@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Map.h"
-#include "list.h"
 
 typedef struct{
 	int id;
@@ -15,6 +14,8 @@ typedef struct{
     char nombre[100];
     int *idEntregas;
     float distanciaTotal;
+    int x;
+	int y;
 }Ruta;
 
 int ordenarRutas(const void *a, const void *b)
@@ -25,11 +26,11 @@ int ordenarRutas(const void *a, const void *b)
     return *ptrA - *ptrB;
 }
 
-void mostrarRutas(List *ListaDeRutasCreadas, int numeroRutas){
+void mostrarRutas(Map *Rutas_nombre, int numeroRutas){
 
     // Si no se ha creado al menos una ruta, se cierra la función. //
     if(numeroRutas == 0){
-        printf("Cree al menos una ruta con la función \"Crear ruta\" (opcion 4) o \"Generar ruta aleatoria\" (opcion 5)\n");
+        printf("Cree al menos una ruta con la funcion \"Crear ruta\" (opcion 4) o \"Generar ruta aleatoria\" (opcion 5)\n");
         return;
     }
 
@@ -38,10 +39,10 @@ void mostrarRutas(List *ListaDeRutasCreadas, int numeroRutas){
     char num[10];
 
     // Se almacenan en un arreglo cada una de las distancias totales de las rutas. // 
-    Ruta *aux = first(ListaDeRutasCreadas);
+    Ruta *aux = (Ruta*) firstMap(Rutas_nombre);
     while(aux != NULL){
         DistanciasTotalesRutas[i] = aux->distanciaTotal;
-        aux = next(ListaDeRutasCreadas);
+        aux = (Ruta*) nextMap(Rutas_nombre);
         i++;
     }
 
@@ -53,7 +54,7 @@ void mostrarRutas(List *ListaDeRutasCreadas, int numeroRutas){
     printf(" --------------------------------------------------\n");
 
     i = 0;
-    aux = first(ListaDeRutasCreadas);
+    aux = (Ruta*) firstMap(Rutas_nombre);
     while(i < numeroRutas){
         if(DistanciasTotalesRutas[i] == aux->distanciaTotal){
             printf("| %s", aux->nombre);
@@ -67,8 +68,8 @@ void mostrarRutas(List *ListaDeRutasCreadas, int numeroRutas){
             printf(" |\n --------------------------------------------------\n");
             i++;
         }
-        aux = next(ListaDeRutasCreadas);
-        if(aux == NULL) aux = first(ListaDeRutasCreadas);
+        aux = (Ruta*) nextMap(Rutas_nombre);
+        if(aux == NULL) aux = (Ruta*) firstMap(Rutas_nombre);
     }
 
     free(DistanciasTotalesRutas);

@@ -3,7 +3,6 @@
 #include <string.h>
 #include <math.h>
 #include "Map.h"
-#include "list.h"
 
 typedef struct{
 	int id;
@@ -16,9 +15,11 @@ typedef struct{
     char nombre[100];
     int *idEntregas;
     float distanciaTotal;
+    int x;
+	int y;
 }Ruta;
 
-void generarRutaAleatoria(Map *Entregas_id, List *ListaDeRutasCreadas, int numeroEntregas, int *numeroRutas){
+void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *numeroRutas){
 
     // Si el mapa no se encuentra inicializado, se cierra la función //
     if(Entregas_id == NULL){
@@ -65,6 +66,8 @@ void generarRutaAleatoria(Map *Entregas_id, List *ListaDeRutasCreadas, int numer
     Ruta *R = (Ruta*)malloc(sizeof(Ruta));
     R->idEntregas = (int*)malloc(numeroEntregas * sizeof(int));
     R->distanciaTotal = 0;
+    R->x = x;
+    R->y = y;
 
     int opcionesRestantes = numeroEntregas;
     int numeroAleatorio = rand() % numeroEntregas;
@@ -146,10 +149,12 @@ void generarRutaAleatoria(Map *Entregas_id, List *ListaDeRutasCreadas, int numer
     printf("\nIngrese nombre de ruta: ");
     scanf("%s", R->nombre);
 
-    // Se agrega la ruta a la lista. //
-    pushBack(ListaDeRutasCreadas, R);
+    // Se agrega la ruta al mapa. //
+    insertMap(Rutas_nombre, R->nombre, R);
 
     (*numeroRutas)++;
+
+    free(DistanciasEP);
 
     getchar();
 
