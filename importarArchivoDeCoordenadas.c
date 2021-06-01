@@ -33,18 +33,26 @@ int lower_than_int(void * key1, void * key2) {
 void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *numeroEntregas){
 
     if(*Entregas_id != NULL) return;
+
+    // Declaración de variables //
+    FILE *fp;
+    bool entradaValida;
+    int contador, i, j, l, posicion, diferenciaX, diferenciaY;
+    char cadena[60], *leer_linea, auxX[6], auxY[6], linea[11];
+    Entrega *E = NULL, *registro1 = NULL, *registro2 = NULL;
+    Map *CopiaEntregas_id = NULL;
 	
     printf("Ingrese nombre archivo .txt: ");
     scanf("%[^\n]s", nombre_archivo);
     getchar();
 
-    FILE *fp = fopen(nombre_archivo, "r");
+    fp = fopen(nombre_archivo, "r");
     if(fp == NULL){
         printf("\nArchivo no encontrado\n");
         return;
     }
 
-    bool entradaValida = false;
+    entradaValida = false;
     while(entradaValida == false){
         printf("\nIngrese numero de entregas: ");
         scanf("%d", &(*numeroEntregas) );
@@ -60,8 +68,7 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
     }
 
     //Se corrobora que el archivo ingresado tenga mayor o igual entregas a 'numeroEntregas'//
-    int contador = 1;
-    char cadena[60];
+    contador = 1;
     while( (fgets(cadena,60, fp) ) != NULL){
         contador++;
         memset(cadena, '\0', 60);
@@ -86,11 +93,6 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
       con las distancias entre las otras entregas. La clave utilizada para acceder a cada entrega es
       el id*/
     *Entregas_id = createMap(is_equal_int);
-	
-    // Declaración de variables. //
-    char *leer_linea, auxX[6], auxY[6], linea[11];
-    Entrega *E;
-    int i, j, l, posicion;
     
     /*Se lee cada una de las lineas del archivo de texto, se guarda la coordena x e y, y el id respecto
       de la iteración. Se tiene en consideración los saltos de espacios antes del primer número y entre
@@ -124,25 +126,15 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
             l++;
         }
         
-        printf("%s", leer_linea);
         E->x = atoi(auxX);
         E->y = atoi(auxY);
         E->id = i + 1;
-        printf("Entrega %d: %d %d\n", E->id, E->x, E->y);
 
         insertMap(*Entregas_id, &E->id, E);
     }
-
-    // TESTING //
-    Entrega *test = (Entrega*) firstMap(*Entregas_id);
-    while(test != NULL){
-        printf("Entrega %d : (%d , %d)\n", test->id, test->x, test->y);
-        test = (Entrega*) nextMap(*Entregas_id);
-    }
-    // FIN TESTING //
 	
     // Se realiza una copia del mapa que se utilizará posteriormente para calcular las distancias. //
-    Map *CopiaEntregas_id = createMap(is_equal_int);
+    CopiaEntregas_id = createMap(is_equal_int);
     E = (Entrega*)firstMap(*Entregas_id);
     while(E){
         insertMap(CopiaEntregas_id, &E->id, E);
@@ -156,17 +148,16 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
        distinto id, si se cumple, se calcula la distancia y se almacena en una determinada
        posición del arreglo. La posición es respecto del id de la entrega a la que se dirige menos
        1. Por ejemplo, se calcula la distancia entre las entrega id 1 - 4, el valor debe almacenarse
-       en la casilla 3 del arreglo de la entrega 1. En el caso que los id's sean iguales se almacena
-       el valor cero en la casilla correspondiente.*/
-    int diferenciaX, diferenciaY;
+       en la casilla 3 del arreglo distancia de la entrega 1. En el caso que los id's sean iguales
+       se almacena el valor cero en la casilla correspondiente.*/
 
-    Entrega *registro1 = (Entrega*) firstMap(*Entregas_id);
+    registro1 = (Entrega*) firstMap(*Entregas_id);
 
     while(registro1){
 
         registro1->distancia = (float*)malloc(*numeroEntregas * sizeof(float));
 
-        Entrega *registro2 = (Entrega*) firstMap(CopiaEntregas_id);
+        registro2 = (Entrega*) firstMap(CopiaEntregas_id);
 
         while(registro2){
 
@@ -177,14 +168,14 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
 
             }else registro1->distancia[registro2->id-1] = 0;
 
-            printf("%d - %d : %.2f\n", registro1->id, registro2->id, registro1->distancia[registro2->id-1]);
+            printf("%d - %d : %.4f\n", registro1->id, registro2->id, registro1->distancia[registro2->id-1]);
             registro2 = (Entrega*) nextMap(CopiaEntregas_id);
         }
         registro1 = (Entrega*) nextMap(*Entregas_id);
         
     }
     
-    // Se libera la copia del mapa- //
+    // Se libera la copia del mapa. //
     free(CopiaEntregas_id);
 
     printf("\n\n");

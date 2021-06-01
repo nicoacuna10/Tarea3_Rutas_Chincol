@@ -26,7 +26,7 @@ int ordenarRutas(const void *a, const void *b)
     return *ptrA - *ptrB;
 }
 
-void mostrarRutas(Map *Rutas_nombre, int numeroRutas){
+void mostrarRutas(Map *Rutas_nombre, int numeroEntregas, int numeroRutas){
 
     // Si no se ha creado al menos una ruta, se cierra la función. //
     if(numeroRutas == 0){
@@ -34,12 +34,21 @@ void mostrarRutas(Map *Rutas_nombre, int numeroRutas){
         return;
     }
 
-    float *DistanciasTotalesRutas = (float*)malloc(numeroRutas * sizeof(float));
-    int i = 0, espacios, k;
+    float *DistanciasTotalesRutas = NULL;
+    int i, caracteres, espacios, k;
     char num[10];
+    Ruta *aux = NULL;
 
-    // Se almacenan en un arreglo cada una de las distancias totales de las rutas. // 
-    Ruta *aux = (Ruta*) firstMap(Rutas_nombre);
+    // Se dimensiona un arreglo para almacenar las distancias totales de cada una de las rutas. //
+    DistanciasTotalesRutas = (float*) malloc(numeroRutas * sizeof(float));
+    if(DistanciasTotalesRutas == NULL){
+        printf("Error en la inicializacion...\n\n");
+        exit (1);
+    }
+
+    // Se almacenan en un arreglo cada una de las distancias totales de las rutas. //
+    i = 0;
+    aux = (Ruta*) firstMap(Rutas_nombre);
     while(aux != NULL){
         DistanciasTotalesRutas[i] = aux->distanciaTotal;
         aux = (Ruta*) nextMap(Rutas_nombre);
@@ -49,9 +58,22 @@ void mostrarRutas(Map *Rutas_nombre, int numeroRutas){
     // Se ordena de la mejor a la peor (menor a mayor) //
     qsort( DistanciasTotalesRutas, numeroRutas, sizeof(float), ordenarRutas);
 
-    printf(" --------------------------------------------------\n");
-    printf("| NOMBRE                         | DISTANCIA TOTAL |\n");
-    printf(" --------------------------------------------------\n");
+    if(numeroEntregas == 1 || numeroEntregas == 2){
+        caracteres = 4;
+    }else if(numeroEntregas > 2 && numeroEntregas < 10){
+        caracteres = (numeroEntregas*2 - 1);
+    }else caracteres = (numeroEntregas-9)*3 + 17;
+    
+    printf(" ");
+    for( k = 0; k < caracteres + 62; k++) printf("-");
+
+    
+    printf("\n| NOMBRE                        | RUTA");
+    for(k = 0; k < caracteres - 4; k++) printf(" ");
+    printf(" | DISTANCIA TOTAL RECORRIDA |\n ");
+    
+    for( k = 0; k < caracteres + 62; k++) printf("-");
+    printf("\n");
 
     i = 0;
     aux = (Ruta*) firstMap(Rutas_nombre);
@@ -60,12 +82,21 @@ void mostrarRutas(Map *Rutas_nombre, int numeroRutas){
             printf("| %s", aux->nombre);
             espacios = 30 - strlen(aux->nombre);
             for(k = 0; k < espacios; k++) printf(" ");
+            printf("| ");
 
-            printf(" | %.2f", aux->distanciaTotal);
+            for(k = 0; k < numeroEntregas; k++){
+                printf("%d", aux->idEntregas[k]);
+                if(k < numeroEntregas - 1) printf("-");
+            }
+
+            printf(" | %.4f", aux->distanciaTotal);
             sprintf(num, "%f", aux->distanciaTotal);
-            espacios = 19 - strlen(num);
+            espacios = 27 - strlen(num);
             for(k = 0; k < espacios; k++) printf(" ");
-            printf(" |\n --------------------------------------------------\n");
+            printf(" |\n ");
+
+            for( k = 0; k < caracteres + 62; k++) printf("-");
+            printf("\n");
             i++;
         }
         aux = (Ruta*) nextMap(Rutas_nombre);

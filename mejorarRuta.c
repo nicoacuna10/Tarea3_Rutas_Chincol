@@ -32,7 +32,7 @@ void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int nu
     int  selecionDeModificacionDeRuta = -1; 
     bool modificacionRutaManual = false;
     bool modificacionRutaAutomatica = false;
-    Ruta *aux = NULL;
+    Ruta *buscadorNombreRuta = NULL;
     Ruta rutaModificada;
 
     int id1, id2, i;
@@ -40,16 +40,15 @@ void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int nu
     Entrega *buscadorID = NULL;
     float distancia;
     int diferenciaX, diferenciaY;
-    int intercambio;
 
     //Se pide nombre de ruta//
     printf("Por favor ingrese nombre de la ruta a mejorar: ");
     scanf("%s", nombre);
     
-    aux = (Ruta*) searchMap(Rutas_nombre, nombre);
+    buscadorNombreRuta = (Ruta*) searchMap(Rutas_nombre, nombre);
 
     // En caso de que no encontrase nombre, se cierra función. //
-    if(aux == NULL){
+    if(buscadorNombreRuta == NULL){
         printf(" ------------------------------------\n");
         printf("| No existe nombre de ruta ingresado |\n");
         printf(" ------------------------------------\n\n");
@@ -65,7 +64,7 @@ void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int nu
         return;
     }
 
-    rutaModificada = *aux;
+    rutaModificada = *buscadorNombreRuta;
     
     //Se pide saber si se quiere modificar ruta automáticamente o maualmente//
     //si se entrega 0 es manual, si es 1 es automática///
@@ -200,9 +199,8 @@ void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int nu
     }
 
     // Se hace el intercambio. ID1 pasa a la posición de ID2. ID2 pasa a la posición de ID1.//
-    intercambio = rutaModificada.idEntregas[posicion1];
-    rutaModificada.idEntregas[posicion1] = rutaModificada.idEntregas[posicion2];
-    rutaModificada.idEntregas[posicion2] = intercambio;
+    rutaModificada.idEntregas[posicion1] = id2;
+    rutaModificada.idEntregas[posicion2] = id1;
 
     // Se hace las sumas de las distancias luego del intercambio. //
     buscadorID = (Entrega*) searchMap(Entregas_id, &id2);
@@ -270,21 +268,21 @@ void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int nu
     }
 
     // Se hace la comparación con la distancia previa al intercambio //
-    if(rutaModificada.distanciaTotal < aux->distanciaTotal){
-        printf("Distancia Ruta \"%s\" antes del intercambio: %.2f\n", nombre, aux->distanciaTotal);
+    if(rutaModificada.distanciaTotal < buscadorNombreRuta->distanciaTotal){
+        printf("Distancia Ruta \"%s\" antes del intercambio: %.4f\n", nombre, buscadorNombreRuta->distanciaTotal);
 
-        aux->distanciaTotal = rutaModificada.distanciaTotal;
-        aux->idEntregas[posicion1] = id2;
-        aux->idEntregas[posicion2] = id1;
+        buscadorNombreRuta->distanciaTotal = rutaModificada.distanciaTotal;
+        buscadorNombreRuta->idEntregas[posicion1] = id2;
+        buscadorNombreRuta->idEntregas[posicion2] = id1;
         
-        printf("Distancia Ruta \"%s\" despues del intercambio: %.2f\n\n", nombre, aux->distanciaTotal);
+        printf("Distancia Ruta \"%s\" despues del intercambio: %.4f\n\n", nombre, buscadorNombreRuta->distanciaTotal);
         
         printf(" -----------------\n");
         printf("| Ruta modificada |\n");
         printf(" -----------------\n");
     }else{
-        printf("Distancia Ruta \"%s\" antes del intercambio: %.2f\n", nombre, aux->distanciaTotal);
-        printf("Distancia Ruta \"%s\" despues del intercambio: %.2f\n\n", nombre, rutaModificada.distanciaTotal);
+        printf("Distancia Ruta \"%s\" antes del intercambio: %.4f\n", nombre, buscadorNombreRuta->distanciaTotal);
+        printf("Distancia Ruta \"%s\" despues del intercambio: %.4f\n\n", nombre, rutaModificada.distanciaTotal);
 
         printf(" --------------------\n");
         printf("| Ruta no modificada |\n");

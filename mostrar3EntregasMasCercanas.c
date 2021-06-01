@@ -28,19 +28,35 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
     }
 
     // Declaración de variables //
-    int x, y;
-    int i, diferenciaX, diferenciaY;
+    int x, y, i, diferenciaX, diferenciaY, espacios, j, k;
+    int caracteres1, caracteres2;
+    float *DistanciasEP = NULL, *CopiaDistanciasEP = NULL;
+    char num[15];
     
     // Se pide al usuario que ingrese las coordenadas de su ubicación actual. //
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
 
+    while(x < -9999 || x > 9999){
+        printf("\nIngrese valor de coordenada x valido: ");
+        scanf("%d", &x);
+    }
+
     printf("Ingrese coordenada y: ");
     scanf("%d", &y);
+
+    while(y < -9999 || y > 9999){
+        printf("\nIngrese valor de coordenada y valido: ");
+        scanf("%d", &y);
+    }
 	
     /* Se incializa un arreglo para almacenar las distancias entre las entregas
        y la posición actual. */
-    float *DistanciasEP = (float*)malloc(numeroEntregas * sizeof(float));
+    DistanciasEP = (float*)malloc(numeroEntregas * sizeof(float));
+    if(DistanciasEP == NULL){
+        printf("Error en la inicializacion...\n\n");
+        exit (1);
+    }
     
     /* Se calculan las distancias entre las entregas y la posción actual. Se almacenan
        en cada casilla en relación al id, considerando que el primer elemento del mapa
@@ -51,14 +67,18 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
         diferenciaX = x - registro1->x;
         diferenciaY = y - registro1->y;
         DistanciasEP[(numeroEntregas-1) - i] = sqrt( pow(diferenciaX, 2) + pow(diferenciaY, 2) );
-        printf("%.2f\n", DistanciasEP[(numeroEntregas-1) - i]);
+        printf("( %d , %d ) - %d : %.4f\n", x, y, registro1->id, DistanciasEP[(numeroEntregas-1) - i]);
         registro1 = (Entrega*) nextMap(Entregas_id);
         i++;
     }
     
     /* Se dimensiona otro arreglo y se hace una copia de las distancias, esto se hace para no perder
        la información de la entrega asociada a la distancia.*/
-    float *CopiaDistanciasEP = (float *)malloc(numeroEntregas * sizeof(float));
+    CopiaDistanciasEP = (float *)malloc(numeroEntregas * sizeof(float));
+    if(CopiaDistanciasEP == NULL){
+        printf("Error en la inicializacion...\n\n");
+        exit (1);
+    }
 
     for(i = 0; i < numeroEntregas; i++){
         CopiaDistanciasEP[i] = DistanciasEP[i];
@@ -68,12 +88,20 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
     qsort( CopiaDistanciasEP, numeroEntregas, sizeof(float), ordenarDeMenorAMayor);
 
     // Se imprime por pantalla las 3 entregas más cercanas a la posición actual. //
-    printf(" ------------------------------------\n");
-    printf("| ID  | DISTANCIA A POSICION ACTUAL  |\n");
-    printf(" ------------------------------------\n");
+    sprintf(num, "%d", x);
+    caracteres1 = strlen(num);
 
-    int espacios, j, k;
-    char num[10];
+    sprintf(num, "%d", y);
+    caracteres2 = strlen(num);
+    
+    printf(" ");
+    for(k = 0; k < caracteres1 + caracteres2 + 47; k++) printf("-");
+
+    printf("\n| ID  | DISTANCIA DESDE POSICION ACTUAL ( %d , %d ) |\n ", x, y);
+
+    for(k = 0; k < caracteres1 + caracteres2 + 47; k++) printf("-");
+    printf("\n");
+
 
     if( numeroEntregas >= 3){
 
@@ -88,12 +116,14 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
                     espacios = 3 - strlen(num);
                     for( k = 0; k < espacios; k++) printf(" ");
 
-                    printf(" | %.2f", DistanciasEP[j]);
-                    sprintf(num, "%f", DistanciasEP[j]);
-                    espacios = 32 - strlen(num);
+                    printf(" | %.4f", DistanciasEP[j]);
+                    sprintf(num, "%.4f", DistanciasEP[j]);
+                    espacios = 40 + caracteres1 + caracteres2 - strlen(num);
                     for ( k = 0; k < espacios; k++) printf(" ");
+                    printf("|\n ");
 
-                    printf(" |\n ------------------------------------\n");
+                    for(k = 0; k < caracteres1 + caracteres2 + 47; k++) printf("-");
+                    printf("\n");
 
                 }
             }
@@ -111,12 +141,14 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
                     espacios = 3 - strlen(num);
                     for( k = 0; k < espacios; k++) printf(" ");
 
-                    printf(" | %.2f", DistanciasEP[j]);
-                    sprintf(num, "%f", DistanciasEP[j]);
-                    espacios = 32 - strlen(num);
+                    printf(" | %.4f", DistanciasEP[j]);
+                    sprintf(num, "%.4f", DistanciasEP[j]);
+                    espacios = 40 + caracteres1 + caracteres2 - strlen(num);
                     for ( k = 0; k < espacios; k++) printf(" ");
+                    printf("|\n ");
 
-                    printf(" |\n ------------------------------------\n");
+                    for(k = 0; k < caracteres1 + caracteres2 + 47; k++) printf("-");
+                    printf("\n");
 
                 }
             }

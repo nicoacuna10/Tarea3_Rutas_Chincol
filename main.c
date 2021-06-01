@@ -45,7 +45,7 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas);
 void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *numeroRutas);
 void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *numeroRutas);
 void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int numeroRutas);
-void mostrarRutas(Map *Rutas_nombre, int numeroRutas);
+void mostrarRutas(Map *Rutas_nombre, int numeroEntregas, int numeroRutas);
 //void mejorRuta(List* ListaDeRutasCreadas, int numeroRutas);
 
 
@@ -64,8 +64,6 @@ int main(){
 	Map *Rutas_nombre = createMap(is_equal_string);
 	setSortFunction(Rutas_nombre, lower_than_string);
 
-
-
 	do{
 		menu(&opcion);
 		if(opcion == 0) break;
@@ -75,7 +73,7 @@ int main(){
 		if(opcion == 4) crearRuta(Entregas_id, Rutas_nombre, numeroEntregas, &numeroRutas);
 		if(opcion == 5) generarRutaAleatoria(Entregas_id, Rutas_nombre, numeroEntregas, &numeroRutas);
 		if(opcion == 6) mejorarRuta(Entregas_id, Rutas_nombre, numeroEntregas, numeroRutas);
-		if(opcion == 7) mostrarRutas(Rutas_nombre, numeroRutas);
+		if(opcion == 7) mostrarRutas(Rutas_nombre, numeroEntregas, numeroRutas);
 		//if(opcion == 8) mejorRuta();
 	}while(opcion != 0);
 
