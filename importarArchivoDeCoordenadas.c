@@ -48,13 +48,16 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
 
     fp = fopen(nombre_archivo, "r");
     if(fp == NULL){
-        printf("\nArchivo no encontrado\n");
+        printf("\n");
+        printf(" -----------------------\n");
+        printf("| Archivo no encontrado |\n");
+        printf(" -----------------------\n\n");
         return;
     }
 
     entradaValida = false;
     while(entradaValida == false){
-        printf("\nIngrese numero de entregas: ");
+        printf("\n\nIngrese numero de entregas: ");
         scanf("%d", &(*numeroEntregas) );
         getchar();
         if( *numeroEntregas > 0)
@@ -177,8 +180,10 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
     
     // Se libera la copia del mapa. //
     free(CopiaEntregas_id);
-
-    printf("\n\n");
+    printf("\n");
+    printf(" ---------------------------------\n");
+    printf("| Importacion realizada con exito |\n");
+    printf(" ---------------------------------\n\n");
 
     return;
 }

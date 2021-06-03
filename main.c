@@ -46,7 +46,7 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
 void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *numeroRutas);
 void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int numeroRutas);
 void mostrarRutas(Map *Rutas_nombre, int numeroEntregas, int numeroRutas);
-void mejorRuta(Map *Entregas_id,Map *Rutas_nombre int *numeroRutas, int numeroEntregas);
+//void mejorRuta(Map *Entregas_id,Map *Rutas_nombre int *numeroRutas, int numeroEntregas);
 
 
 int main(){
@@ -74,9 +74,10 @@ int main(){
 		if(opcion == 5) generarRutaAleatoria(Entregas_id, Rutas_nombre, numeroEntregas, &numeroRutas);
 		if(opcion == 6) mejorarRuta(Entregas_id, Rutas_nombre, numeroEntregas, numeroRutas);
 		if(opcion == 7) mostrarRutas(Rutas_nombre, numeroEntregas, numeroRutas);
-		if(opcion == 8) mejorRuta(Entregas_id,Rutas_nombre, &numeroRutas, numeroEntregas);
+		//if(opcion == 8) mejorRuta(Entregas_id,Rutas_nombre, &numeroRutas, numeroEntregas);
 	}while(opcion != 0);
 
+	printf("\n");
 	printf(" ----------------------------\n");
 	printf("| Adios !                    |\n");
 	printf("| Que tenga buen dia.        |\n");

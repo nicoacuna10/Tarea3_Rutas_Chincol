@@ -14,7 +14,10 @@ void distanciaEntreEntregas(Map *Entregas_id, int numeroEntregas){
 	
     // Si no se encuentra inicializado el mapa, se cierra la función. // 
     if(Entregas_id == NULL){
-        printf("Primero importar un archivo .txt !\n\n");
+        printf("\n");
+        printf(" ------------------------------------\n");
+        printf("| Primero importar un archivo .txt ! |\n");
+        printf(" ------------------------------------\n\n");
         return;
     }
 
@@ -65,13 +68,14 @@ void distanciaEntreEntregas(Map *Entregas_id, int numeroEntregas){
     sprintf(num, "%.4f", distancia);
     caracteres3 = strlen(num);
 
+    printf("\n");
     printf(" ");
     for(k = 0; k < caracteres1 + caracteres2 + caracteres3 + 40; k++) printf("-");
 
     printf("\n| La distancia entre la entrega %d y %d es: %.4f |\n ", id1, id2, distancia);
 
     for(k = 0; k < caracteres1 + caracteres2 + caracteres3 + 40; k++) printf("-");
-    printf("\n");
+    printf("\n\n");
 
     getchar();
 

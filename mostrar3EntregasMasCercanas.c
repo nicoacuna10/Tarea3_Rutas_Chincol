@@ -23,7 +23,10 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
 	
     // Si no se encuentra inicializado del mapa, se cierra la función. //
     if(Entregas_id == NULL){
-        printf("Primero importar un archivo .txt !\n\n");
+        printf("\n");
+        printf(" ------------------------------------\n");
+        printf("| Primero importar un archivo .txt ! |\n");
+        printf(" ------------------------------------\n\n");
         return;
     }
 
@@ -160,7 +163,7 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
     free(CopiaDistanciasEP);
 
     getchar();
-    
+    printf("\n\n");
     return;
 
 }

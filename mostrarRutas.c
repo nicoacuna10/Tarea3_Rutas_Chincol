@@ -30,7 +30,9 @@ void mostrarRutas(Map *Rutas_nombre, int numeroEntregas, int numeroRutas){
 
     // Si no se ha creado al menos una ruta, se cierra la función. //
     if(numeroRutas == 0){
-        printf("Cree al menos una ruta con la funcion \"Crear ruta\" (opcion 4) o \"Generar ruta aleatoria\" (opcion 5)\n");
+        printf(" --------------------------------------------------------------------------------------------------------\n");
+        printf("| Cree al menos una ruta con la funcion \"Crear ruta\" (opcion 4) o \"Generar ruta aleatoria\" (opcion 5)    |\n");
+        printf(" --------------------------------------------------------------------------------------------------------\n\n");
         return;
     }
 

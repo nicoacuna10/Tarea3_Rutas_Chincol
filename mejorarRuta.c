@@ -23,7 +23,10 @@ typedef struct{
 void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int numeroRutas){
     //Se corrobora que se ingresaron rutas//
     if(numeroRutas == 0){
-        printf("Cree al menos una ruta con la funcion \"Crear ruta\" (opcion 4) o \"Generar ruta aleatoria\" (opcion 5)\n");
+        printf("\n");
+        printf(" ---------------------------------------------------------------------------------------------------------\n");
+        printf("| Cree al menos una ruta con la funcion \"Crear ruta\" (opcion 4) o \"Generar ruta aleatoria\" (opcion 5)     |\n");
+        printf(" ---------------------------------------------------------------------------------------------------------\n\n");
         return;
     }
 

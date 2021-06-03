@@ -31,7 +31,10 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
 
     // Si no se encuentra inicializado el mapa, se cierra la función. //
     if(Entregas_id == NULL){
-        printf("Primero importar un archivo .txt !\n\n");
+        printf("\n");
+        printf(" ------------------------------------\n");
+        printf("| Primero importar un archivo .txt ! |\n");
+        printf(" ------------------------------------\n\n");
         return;
     }
 
@@ -310,6 +313,9 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
     free(marcador);
 
     getchar();
-
+    printf("\n\n");
+    printf(" -------------------------\n");
+    printf("| Ruta creada con exito ! |\n");
+    printf(" -------------------------\n\n");
     return;
 }

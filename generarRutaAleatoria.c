@@ -23,7 +23,10 @@ void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntrega
 
     // Si el mapa no se encuentra inicializado, se cierra la función //
     if(Entregas_id == NULL){
-        printf("Primero importar un archivo .txt !\n\n");
+        printf("\n");
+        printf(" ------------------------------------\n");
+        printf("| Primero importar un archivo .txt ! |\n");
+        printf(" ------------------------------------\n\n");
         return;
     }
 
