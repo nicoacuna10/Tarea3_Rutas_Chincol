@@ -106,6 +106,7 @@ void mostrarRutas(Map *Rutas_nombre, int numeroEntregas, int numeroRutas){
     }
 
     free(DistanciasTotalesRutas);
+    printf("\n\n");
 
     return;
 

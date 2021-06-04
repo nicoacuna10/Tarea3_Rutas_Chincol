@@ -26,7 +26,7 @@ int comparar(const void *a, const void *b){
     return *PtrA - *PtrB;
 }
 
-void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numeroEntregas){
+void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numeroEntregas, int *contMejorRutasCreadas){
     //Si no se entra a la función de importación se cierra función//
     if(numeroEntregas == 0 || entregas_id == NULL){
         printf(" ----------------------------------------------------------------------------------------------\n");
@@ -178,7 +178,8 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
             distanciaMasCorta[0].x = x;
             distanciaMasCorta[0].y = y;
 
-            strcpy( distanciaMasCorta[0].nombre, "Mejor Ruta");
+            printf("Ingrese nombre a su nueva mejor ruta: ");
+            scanf("%s", distanciaMasCorta[0].nombre);
 
             distanciaMasCorta = (Ruta*) realloc(distanciaMasCorta, sizeof(Ruta));
         }
@@ -212,7 +213,7 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
     free(entregasVisitadas);
     free(distanciaEP);
 
-    printf("\n\n");
+    printf("\n\n\n");
     getchar();
     return;
 }

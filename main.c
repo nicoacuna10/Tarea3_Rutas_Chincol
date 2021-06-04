@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Map.h"
-#include "list.h"
 
 typedef struct{
 	int id;
@@ -46,13 +45,13 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
 void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *numeroRutas);
 void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int numeroRutas);
 void mostrarRutas(Map *Rutas_nombre, int numeroEntregas, int numeroRutas);
-void mejorRuta(Map *Entregas_id,Map *Rutas_nombre, int *numeroRutas, int numeroEntregas);
+void mejorRuta(Map *Entregas_id,Map *Rutas_nombre, int *numeroRutas, int numeroEntregas, int *contNumeroRutasCreadas);
 
 
 int main(){
 
 	char nombre_archivo[100];
-	int opcion, numeroEntregas = 0, numeroRutas = 0;
+	int opcion, numeroEntregas = 0, numeroRutas = 0, contMejorRutasCreadas = 0;;
 
 	// Inicialización del mapa en NULL. //
 	Map *Entregas_id = NULL;
@@ -74,7 +73,7 @@ int main(){
 		if(opcion == 5) generarRutaAleatoria(Entregas_id, Rutas_nombre, numeroEntregas, &numeroRutas);
 		if(opcion == 6) mejorarRuta(Entregas_id, Rutas_nombre, numeroEntregas, numeroRutas);
 		if(opcion == 7) mostrarRutas(Rutas_nombre, numeroEntregas, numeroRutas);
-		if(opcion == 8) mejorRuta(Entregas_id,Rutas_nombre, &numeroRutas, numeroEntregas);
+		if(opcion == 8) mejorRuta(Entregas_id,Rutas_nombre, &numeroRutas, numeroEntregas, &contMejorRutasCreadas);
 	}while(opcion != 0);
 
 	printf("\n");
