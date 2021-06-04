@@ -178,6 +178,9 @@ void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntrega
     free(DistanciasEP);
     free(marcador);
 
+    printf(" -----------------------------------\n");
+    printf("| Ruta Aleatoria creada con exito ! |\n")
+    printf(" -----------------------------------\n\n")
     getchar();
 
     return; 

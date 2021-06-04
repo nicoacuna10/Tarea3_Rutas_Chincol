@@ -280,9 +280,9 @@ void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int nu
         
         printf("Distancia Ruta \"%s\" despues del intercambio: %.4f\n\n", nombre, buscadorNombreRuta->distanciaTotal);
         
-        printf(" -----------------\n");
-        printf("| Ruta modificada |\n");
-        printf(" -----------------\n");
+        printf(" ---------------------------\n");
+        printf("| Ruta modificada con exito |\n");
+        printf(" ---------------------------\n");
     }else{
         printf("Distancia Ruta \"%s\" antes del intercambio: %.4f\n", nombre, buscadorNombreRuta->distanciaTotal);
         printf("Distancia Ruta \"%s\" despues del intercambio: %.4f\n\n", nombre, rutaModificada.distanciaTotal);
