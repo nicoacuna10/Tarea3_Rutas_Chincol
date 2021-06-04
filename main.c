@@ -61,7 +61,7 @@ int main(){
        en relación del recorrido, la distancia total, y las coordenadas de la posición inicial. La clave es el
 	   nombre de la ruta. */
 	Map *Rutas_nombre = createMap(is_equal_string);
-	setSortFunction(Rutas_nombre, lower_than_string);
+	setSortFunction(Rutas_nombre, lower_than_string); //Comentario: Por que esta esto aqui ?//
 
 	do{
 		menu(&opcion);

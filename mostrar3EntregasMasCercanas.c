@@ -11,8 +11,8 @@ typedef struct{
 	float *distancia;
 }Entrega;
 
-int ordenarDeMenorAMayor(const void *a, const void *b)
-{
+int ordenarDeMenorAMayor(const void *a, const void *b){
+    //Funcion que se usa para comparar en qsort//
     float *ptrA = (float *)a;
     float *ptrB = (float *)b;
 
@@ -39,7 +39,7 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
     // Se pide al usuario que ingrese las coordenadas de su ubicación actual. //
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
-
+    //COMENTARIO: HAY QUE VER SI TOMAMOS EL RANGO DE LOS TIPO INT MEJOR//
     while(x < -9999 || x > 9999){
         printf("\nIngrese valor de coordenada x valido: ");
         scanf("%d", &x);
@@ -57,7 +57,7 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
        y la posición actual. */
     DistanciasEP = (float*)malloc(numeroEntregas * sizeof(float));
     if(DistanciasEP == NULL){
-        printf("Error en la inicializacion...\n\n");
+        printf("Error en la inicializacion de arreglo en funcion mostrar3EntregasMasCeranas.\n\n");
         exit (1);
     }
     
@@ -79,7 +79,7 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
        la información de la entrega asociada a la distancia.*/
     CopiaDistanciasEP = (float *)malloc(numeroEntregas * sizeof(float));
     if(CopiaDistanciasEP == NULL){
-        printf("Error en la inicializacion...\n\n");
+        printf("Error en la inicializacion de arreglo en funcion mostrar3EntregasMasCercanas.\n\n");
         exit (1);
     }
 
@@ -105,7 +105,7 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
     for(k = 0; k < caracteres1 + caracteres2 + 47; k++) printf("-");
     printf("\n");
 
-
+    // Comentario: El else es cuando solo hay dos entregas cierto ?//
     if( numeroEntregas >= 3){
 
         for( i = 0; i < 3; i++){

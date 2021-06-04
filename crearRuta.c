@@ -19,8 +19,8 @@ typedef struct{
 	int y;
 }Ruta;
 
-int ordenar(const void *a, const void *b)
-{
+int ordenar(const void *a, const void *b){
+    //Función de comparación para qsort//
     float *ptrA = (float *)a;
     float *ptrB = (float *)b;
 
@@ -50,7 +50,8 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
     // Se pide al usuario que ingrese las coordenadas de su posición actual. //
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
-
+    
+    //Cometnario: nuevamente necesitamos ver si dejamos el intervalo para los posibles numeros int//
     while(x < -9999 || x > 9999){
         printf("\nIngrese valor de coordenada x valido: ");
         scanf("%d", &x);

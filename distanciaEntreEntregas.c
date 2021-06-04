@@ -52,7 +52,7 @@ void distanciaEntreEntregas(Map *Entregas_id, int numeroEntregas){
     }
 
     /* Se busca en el mapa la información de la entrega del primer id ingresado.
-       Se guarda en la variable distancia la distancia entre la entrega del primer
+       Se guarda en la variable 'distancia' la distancia entre la entrega del primer
        id y la entrega del segundo id. Finalmente se imprime por pantalla los numeros
        de id's y la distancia entre ellos.*/
     Entrega *registro1 = (Entrega*) searchMap(Entregas_id, &id1);

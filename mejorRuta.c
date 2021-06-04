@@ -51,7 +51,7 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
 
-    //REVISAR SI ES MEJOR AMPLIAR EL RANGO O NO//
+    //REVISAR SI ES MEJOR AMPLIAR EL RANGO O NO!!!!!!!//
     while(x < -9999 || x > 9999){
         printf("\nIngrese valor de coordenada x valido: ");
         scanf("%d", &x);
@@ -142,7 +142,7 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
         diferenciaX = x - aux->x;
         diferenciaY = y - aux->y;
 
-        //REVISAR SI DEBEMOS CASTEAR A DOUBLE !!!!!!!!!//
+        //REVISAR SI DEBEMOS CASTEAR A DOUBLE !!!!!!!!!!!!!!!!//
         distancia = sqrt(pow(diferenciaX,2) + pow(diferenciaY,2) );
         distanciaMasCorta[i].distanciaTotal += distancia;
        

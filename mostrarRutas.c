@@ -18,8 +18,8 @@ typedef struct{
 	int y;
 }Ruta;
 
-int ordenarRutas(const void *a, const void *b)
-{
+int ordenarRutas(const void *a, const void *b){
+    //Funcion comparar para qsort//
     float *ptrA = (float *)a;
     float *ptrB = (float *)b;
 
@@ -60,6 +60,7 @@ void mostrarRutas(Map *Rutas_nombre, int numeroEntregas, int numeroRutas){
     // Se ordena de la mejor a la peor (menor a mayor) //
     qsort( DistanciasTotalesRutas, numeroRutas, sizeof(float), ordenarRutas);
 
+    //Se calcula la cantidad de caracteres tipo espacio que seran necesarios para impresión//
     if(numeroEntregas == 1 || numeroEntregas == 2){
         caracteres = 4;
     }else if(numeroEntregas > 2 && numeroEntregas < 10){
@@ -69,7 +70,7 @@ void mostrarRutas(Map *Rutas_nombre, int numeroEntregas, int numeroRutas){
     printf(" ");
     for( k = 0; k < caracteres + 62; k++) printf("-");
 
-    
+    //Se imprime las rutas a continuación// 
     printf("\n| NOMBRE                        | RUTA");
     for(k = 0; k < caracteres - 4; k++) printf(" ");
     printf(" | DISTANCIA TOTAL RECORRIDA |\n ");

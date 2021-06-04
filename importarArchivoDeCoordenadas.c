@@ -47,6 +47,7 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
     getchar();
 
     fp = fopen(nombre_archivo, "r");
+    //Caso donde no se encuentra el archivo//
     if(fp == NULL){
         printf("\n");
         printf(" -----------------------\n");
@@ -56,6 +57,7 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
     }
 
     entradaValida = false;
+    //Se lee entregas por usuario a procesar//
     while(entradaValida == false){
         printf("\n\nIngrese numero de entregas: ");
         scanf("%d", &(*numeroEntregas) );
@@ -89,7 +91,7 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
         return;
     }
 
-    //Se vuelve al inicio indicador de lecutra del archivo txt, con el fin de procesar datos//
+    //Se vuelve al inicio el indicador de lecutra del archivo txt, con el fin de procesar datos//
     rewind(fp);
 
     /*Creación de mapa que almacena el id de la entrega, las coordenadas x e y, y un arreglo dinámico
@@ -148,7 +150,7 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
     
     /* Se Calcula la distancia entre las entregas, para eso se necesita recorrer el mapa con la
        información de las entregas y su copia (creada anteriormente). En cada nueva interación
-       del recorrido del primer mapa, se dimensiona el arreglo distancia con tamaño el numero de
+       del recorrido del primer mapa, se dimensiona el arreglo 'distancia' con tamaño el numero de
        entregas. En cada iteración del recorrido de la copia, se compara si las entregas tienen
        distinto id, si se cumple, se calcula la distancia y se almacena en una determinada
        posición del arreglo. La posición es respecto del id de la entrega a la que se dirige menos

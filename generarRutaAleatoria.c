@@ -41,7 +41,7 @@ void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntrega
     // Se pide al usuario que ingrese las coordenadas de su posición actual. //
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
-
+    //Comentario:Nuevamente tenemos que ver si cambiamos el intervalo//
     while(x < -9999 || x > 9999){
         printf("\nIngrese valor de coordenada x valido: ");
         scanf("%d", &x);
@@ -101,6 +101,7 @@ void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntrega
     i++;
     opcionesRestantes--;
 
+    //Ver esto mañana!!//
     while(opcionesRestantes > 0){
 
         Entrega *aux = (Entrega*) searchMap(Entregas_id, &id);
