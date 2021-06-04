@@ -44,6 +44,9 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
     int *entregasVisitadas = NULL; 
     Ruta *distanciaMasCorta = NULL;
 
+    int caracteres, espacios;
+    char num[15];
+
     // Se pide al usuario que ingrese las coordenadas de su posición actual.//
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
@@ -148,7 +151,8 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
             printf("%d ", distanciaMasCorta[i].idEntregas[j]);
         }
 
-        printf("%.4f", distanciaMasCorta[i].distanciaTotal);
+        printf("%.4f\n", distanciaMasCorta[i].distanciaTotal);
+
         //FIN TESTING :D//
     }
 
@@ -181,6 +185,27 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
     }
 
     insertMap(rutas_nombre, distanciaMasCorta->nombre, distanciaMasCorta);
+
+    // Se imprime por pantalla la ruta (secuencia de id's de cada entrega) y la distancia total recorrida. //
+    if(numeroEntregas < 10){
+        caracteres = (numeroEntregas*3 - 2);
+    }else caracteres = (numeroEntregas-9)*4 +25;
+
+    printf(" ");
+    for(i = 0; i < caracteres + 28; i++) printf("-");
+
+    printf("\n| Mejor Ruta | ");
+
+    for(i = 0; i < numeroEntregas; i++){
+        printf("%d", distanciaMasCorta->idEntregas[i]);
+        if(i < numeroEntregas - 1) printf("->");
+    }
+
+    printf(" | %.4f |\n ", distanciaMasCorta->distanciaTotal);
+
+    for(i = 0; i < caracteres + 28; i++) printf("-");
+    printf("\n");
+
 
     (*numeroRutas)++;
 

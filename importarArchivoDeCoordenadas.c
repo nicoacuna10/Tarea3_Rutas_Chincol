@@ -135,6 +135,8 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
 
         insertMap(*Entregas_id, &E->id, E);
     }
+
+    fclose(fp);
 	
     // Se realiza una copia del mapa que se utilizará posteriormente para calcular las distancias. //
     CopiaEntregas_id = createMap(is_equal_int);
