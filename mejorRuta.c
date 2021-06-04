@@ -21,11 +21,14 @@ typedef struct{
 	int y;
 }Ruta;
 
-comparar(const void *a, const void *b);
+int comparar(const void *a, const void *b){
+    float *PtrA = (float *)a, *PtrB = (float *)b;
+    return *PtrA - *PtrB;
+}
 
 void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numeroEntregas){
     //Si no se entra a la función de importación se cierra función//
-    if(numeroEntregas == 0){
+    if(numeroEntregas == 0 || entregas_id == NULL){
         printf(" ----------------------------------------------------------------------------------------------\n");
         printf("| Por favor ingrese a la funcion de importar para tener entregas para crear mejor ruta posible |\n");
         printf(" ----------------------------------------------------------------------------------------------\n\n");
@@ -35,22 +38,13 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
     //Lista de variables//
     Entrega *aux = NULL;
     float distancia;
-    float *distanciaEp = NULL;
+    float *distanciaEP = NULL;
     int i, j,k , x, y, idEntrega, contRecorrido;
     int diferenciaX = 0, diferenciaY = 0;
     int *entregasVisitadas = NULL; 
-    Ruta *ristanciaMasCorta = NULL;
-    /*
-    float **matriz = NULL;//Se crea matríz dinámica para revisar las distancias entre todas las entregas//
-    matriz = (float **) malloc(numeroEntregas * sizeof(float *) );
-    assert(matriz != NULL);
-    for(i = 0; i < numeroEntregas; i++){
-        matriz[i] = (float *) malloc(numeroEntregas * sizeof(float ) );
-        assert(matriz[i] != NULL);
-    }
-    */
+    Ruta *distanciaMasCorta = NULL;
 
-    // Se pide al usuario que ingrese las coordenadas de su posición actual. //
+    // Se pide al usuario que ingrese las coordenadas de su posición actual.//
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
 
@@ -113,25 +107,25 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
             //Se guarda todas las distnacias en relación a 'idEntrega'//
             for(j = 0; j < numeroEntregas; j++){
                if(entregasVisitadas[j] == 1){
-                   distanciaEp[j] = -1;
+                   distanciaEP[j] = -1;
                }else{
-                   distanciaEp[j] = aux->distancia[j];
+                   distanciaEP[j] = aux->distancia[j];
 
                } 
             }
 
             //Se ordena de manera creciente 'distnaciasEp'//
-            qsort(distanciaEp, numeroEntregas, sizeof(float), comparar);
+            qsort(distanciaEP, numeroEntregas, sizeof(float), comparar);
 
             for(j = 0; j < numeroEntregas; j++){
-                if( (distanciaEp[contRecorrido] == aux->distancia[j]) && (entregasVisitas[j] != 1) ){
+                if( (distanciaEP[contRecorrido] == aux->distancia[j]) && (entregasVisitadas[j] != 1) ){
                     idEntrega = j+1;
                     break;
                 }
             }
 
-            distnaciaMasCorta[i].distnaciaTotal += aux->distancia[j];
-            distnaciaMasCorta[i].idEntregas[contRecorrido] = idEntrega;
+            distanciaMasCorta[i].distanciaTotal += aux->distancia[j];
+            distanciaMasCorta[i].idEntregas[contRecorrido] = idEntrega;
 
             k = j;
             contRecorrido++;
@@ -154,44 +148,46 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
             printf("%d ", distanciaMasCorta[i].idEntregas[j]);
         }
 
-        printf("%.4f", distanciaMasCorta[i].distnaciaTotal);
+        printf("%.4f", distanciaMasCorta[i].distanciaTotal);
         //FIN TESTING :D//
     }
 
 
-    distanciasEP = (float*)malloc(numeroEntregas * sizeof(float));
+    distanciaEP = (float*)malloc(numeroEntregas * sizeof(float));
 
     for(i = 0; i < numeroEntregas; i++){
-        distanciasEP[i] = distanciasMasCorta[i].distanciaTotal;
+        distanciaEP[i] = distanciaMasCorta[i].distanciaTotal;
     }
 
-    qsort( distanciasEP, numeroEntregas, sizeof(float), ordenarDistanciasDeMenorAMayor);
+    qsort( distanciaEP, numeroEntregas, sizeof(float), comparar);
 
     for(i = 0; i < numeroEntregas; i++){
-        if(distanciasEP[0] == distanciasMasCorta[i].distanciaTotal){
+        if(distanciaEP[0] == distanciaMasCorta[i].distanciaTotal){
             if(i > 0){
-                distanciasMasCorta[0].distanciaTotal = distanciasMasCorta[i].distanciaTotal;
+                distanciaMasCorta[0].distanciaTotal = distanciaMasCorta[i].distanciaTotal;
 
                 for(j = 0; j < numeroEntregas; j++){
-                    distanciasMasCorta[0].idEntregas[j] = distanciasMasCorta[i].idEntregas[j];
+                    distanciaMasCorta[0].idEntregas[j] = distanciaMasCorta[i].idEntregas[j];
                 }
             }
 
-            distanciasMasCorta[0].x = x;
-            distanciasMasCorta[0].y = y;
+            distanciaMasCorta[0].x = x;
+            distanciaMasCorta[0].y = y;
 
-            strcpy( distanciasMasCorta[0].nombre, "Mejor Ruta");
+            strcpy( distanciaMasCorta[0].nombre, "Mejor Ruta");
 
-            distanciasMasCortas = (Ruta*) realloc(distanciasMasCorta, sizeof(Ruta));
+            distanciaMasCorta = (Ruta*) realloc(distanciaMasCorta, sizeof(Ruta));
         }
     }
 
-    insertMap(rutas_nombre, distanciasMasCorta->nombre, distanciasMasCorta);
+    insertMap(rutas_nombre, distanciaMasCorta->nombre, distanciaMasCorta);
 
     (*numeroRutas)++;
 
     free(entregasVisitadas);
-    free(distanciasEP);
+    free(distanciaEP);
 
+    printf("\n\n");
+    getchar();
     return;
 }
