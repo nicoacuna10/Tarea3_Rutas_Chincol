@@ -8,13 +8,13 @@ typedef struct{
 	int id;
 	int x;
 	int y;
-	float *distancia;
+	double *distancia;
 }Entrega;
 
 typedef struct{
     char nombre[100];
     int *idEntregas;
-    float distanciaTotal;
+    double distanciaTotal;
     int x;
 	int y;
 }Ruta;
@@ -32,9 +32,9 @@ void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntrega
 
     // Declaración de variables. //
     int x, y, i, diferenciaX, diferenciaY, opcionesRestantes, numeroAleatorio, id;
-    float *DistanciasEP = NULL, distancia;
-    int *marcador = NULL, espacios, caracteres, k;
-    Ruta *R = NULL;
+    double *DistanciasAEntregas = NULL, distancia;
+    int *marcador = NULL, espacios, caracteres, caracteresCoordenadaX, caracteresCoordenadaY, k;
+    Ruta *R = NULL, *registroNombreRuta = NULL;
     Entrega *registro = NULL;
     char num[10];
 
@@ -42,7 +42,7 @@ void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntrega
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
 
-    while(x < -32767|| x > 32767){
+    while(x < -32767 || x > 32767){
         printf("\nIngrese valor de coordenada x valido: ");
         scanf("%d", &x);
     }
@@ -50,28 +50,24 @@ void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntrega
     printf("Ingrese coordenada y: ");
     scanf("%d", &y);
 
-    while(y < -32767|| y > 32767){
+    while(y < -32767 || y > 32767){
         printf("\nIngrese valor de coordenada y valido: ");
         scanf("%d", &y);
     }
 
     /* Se dimensiona un arreglo para almacenar las distancias entre la entrega y la
        posición actual. */
-    DistanciasEP = (float*)malloc(numeroEntregas * sizeof(float));
+    DistanciasAEntregas = (double *)malloc(numeroEntregas * sizeof(double));
     
 
     /* Se calculan las ditancias entre las entregas y la posición actual y se almacenan
        en el arreglo. */
-    i = 0;
-    registro = (Entrega*) firstMap(Entregas_id);
-
-    while(registro != NULL){
+    for(i = 0; i < numeroEntregas; i++){
+        id = i + 1;
+        registro = (Entrega*)searchMap(Entregas_id, &id);
         diferenciaX = x - registro->x;
         diferenciaY = y - registro->y;
-        DistanciasEP[(numeroEntregas-1) - i] = sqrt( pow(diferenciaX, 2) + pow(diferenciaY, 2) );
-        printf("( %d , %d ) - %d : %.4f\n", x, y, registro->id, DistanciasEP[(numeroEntregas-1) - i]);
-        registro = (Entrega*) nextMap(Entregas_id);
-        i++;
+        DistanciasAEntregas[(numeroEntregas-1) - i] = sqrt( pow(diferenciaX, 2) + pow(diferenciaY, 2) );
     }
 
     /* Se dimesiona un arreglo para marcar los id´s ocpuados para construir la ruta.
@@ -94,7 +90,7 @@ void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntrega
 
     marcador[numeroAleatorio] = 1;
 
-    R->distanciaTotal += DistanciasEP[numeroAleatorio];
+    R->distanciaTotal += DistanciasAEntregas[numeroAleatorio];
     R->idEntregas[i] = numeroAleatorio + 1;
 
     id = numeroAleatorio + 1;
@@ -136,55 +132,75 @@ void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntrega
 
     // Se imprime por pantalla la ruta (secuencia de id's de cada entrega) y la distancia total recorrida. //
 
-    if(numeroEntregas == 1 || numeroEntregas == 2){
-        caracteres = 4;
-    }else if(numeroEntregas > 2 && numeroEntregas < 10){
-        caracteres = (numeroEntregas*2 - 1);
-    }else caracteres = (numeroEntregas-9)*3 + 17;
+    // Se imprime por pantalla la ruta (secuencia de id's de cada entrega) y la distancia total recorrida. //
+    if(numeroEntregas < 10){
+        caracteres = (numeroEntregas*3 + 2);
+    }else caracteres = (numeroEntregas-9)*4 + 29;
+
+    sprintf(num, "%d", R->x);
+    caracteresCoordenadaX = strlen(num);
+
+    sprintf(num, "%d", R->y);
+    caracteresCoordenadaY = strlen(num);
     
     printf(" ");
-    for( k = 0; k < caracteres + 30; k++) printf("-");
+    for( k = 0; k < caracteres + 2 * (caracteresCoordenadaX + caracteresCoordenadaY) + 44; k++) printf("-");
     printf("\n");
 
     printf("| RUTA");
-    for( k = 0; k < caracteres - 4; k++) printf(" ");
+    for( k = 0; k < caracteres + 2 *(caracteresCoordenadaX + caracteresCoordenadaY) + 10; k++) printf(" ");
     printf(" | DISTANCIA TOTAL RECORRIDA |\n ");
 
-    for( k = 0; k < caracteres + 30; k++) printf("-");
-    printf("\n| ");
+    for( k = 0; k < caracteres + 2 *(caracteresCoordenadaX + caracteresCoordenadaY) + 44; k++) printf("-");
+
+    printf("\n| ( %d , %d )->", R->x, R->y);
 
     for( i = 0; i < numeroEntregas; i++){
-        printf("%d", R->idEntregas[i]);
-        if(i < numeroEntregas-1) printf("-");
+        printf("%d->", R->idEntregas[i]);
     }
 
-    if(numeroEntregas == 1) for(k = 0; k < 3; k++) printf(" ");
-    if(numeroEntregas == 2) printf(" ");
+    printf("( %d , %d )", R->x, R->y);
 
-    printf(" | %.4f", R->distanciaTotal);
-    sprintf(num, "%f", R->distanciaTotal);
-    espacios = 27 - strlen(num);
+    printf(" | %.4lf", R->distanciaTotal);
+    sprintf(num, "%.4lf", R->distanciaTotal);
+    espacios = 25 - strlen(num);
     for( k = 0; k < espacios; k++) printf(" ");
     printf(" |\n ");
     
-    for( k = 0; k < caracteres + 30; k++) printf("-");
+    for( k = 0; k < caracteres + 2 * (caracteresCoordenadaX + caracteresCoordenadaY) + 44; k++) printf("-");
     printf("\n");
 
     // Se pide al usuario que ingrese un nombre para la ruta. //
     printf("\nIngrese nombre de ruta: ");
     scanf("%s", R->nombre);
 
+    /* Se busca si existe otra ruta con el nombre ingresado. Si existe se pide al usuario
+    que ingrese otro hasta que ingrese un nombre no existente en el mapa. */
+    registroNombreRuta = (Ruta*) searchMap(Rutas_nombre, R->nombre);
+
+    while( registroNombreRuta != NULL){
+        caracteres = strlen(R->nombre);
+        printf(" ");
+        for(k = 0; k < caracteres + 27; k++) printf("-");
+        printf("\n| Existe ruta con nombre \"%s\" |\n ", R->nombre);
+        for(k = 0; k < caracteres + 27; k++) printf("-");
+        printf("\n\nIngrese otro nombre: ");
+        scanf("%s", R->nombre);
+
+        registroNombreRuta = (Ruta *) searchMap(Rutas_nombre, R->nombre);
+    }
+
     // Se agrega la ruta al mapa. //
     insertMap(Rutas_nombre, R->nombre, R);
 
     (*numeroRutas)++;
 
-    free(DistanciasEP);
+    free(DistanciasAEntregas);
     free(marcador);
 
     printf(" -----------------------------------\n");
-    printf("| Ruta Aleatoria creada con exito ! |\n")
-    printf(" -----------------------------------\n\n")
+    printf("| Ruta Aleatoria creada con exito ! |\n");
+    printf(" -----------------------------------\n\n");
     getchar();
 
     return; 

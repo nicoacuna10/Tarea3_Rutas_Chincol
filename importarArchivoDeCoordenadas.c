@@ -9,7 +9,7 @@ typedef struct{
     int id;
 	int x;
 	int y;
-    float *distancia;
+    double *distancia;
 }Entrega;
 
 /*
@@ -163,7 +163,7 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
 
     while(registro1){
 
-        registro1->distancia = (float*)malloc(*numeroEntregas * sizeof(float));
+        registro1->distancia = (double*)malloc(*numeroEntregas * sizeof(double));
 
         registro2 = (Entrega*) firstMap(CopiaEntregas_id);
 
@@ -176,7 +176,6 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
 
             }else registro1->distancia[registro2->id-1] = 0;
 
-            printf("%d - %d : %.4f\n", registro1->id, registro2->id, registro1->distancia[registro2->id-1]);
             registro2 = (Entrega*) nextMap(CopiaEntregas_id);
         }
         registro1 = (Entrega*) nextMap(*Entregas_id);

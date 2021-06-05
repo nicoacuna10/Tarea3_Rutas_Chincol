@@ -7,13 +7,13 @@ typedef struct{
 	int id;
 	int x;
 	int y;
-	float *distancia;
+	double *distancia;
 }Entrega;
 
 typedef struct{
     char nombre[100];
     int *idEntregas;
-    float distanciaTotal;
+    double distanciaTotal;
 	int x;
 	int y;
 }Ruta;

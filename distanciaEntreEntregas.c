@@ -7,7 +7,7 @@ typedef struct{
     int id;
 	int x;
 	int y;
-    float *distancia;
+    double *distancia;
 }Entrega;
 
 void distanciaEntreEntregas(Map *Entregas_id, int numeroEntregas){
@@ -31,7 +31,7 @@ void distanciaEntreEntregas(Map *Entregas_id, int numeroEntregas){
     
     // Declaración de variables //
     int id1, id2, caracteres1, caracteres2, caracteres3, k;
-    float distancia;
+    double distancia;
     char num[15];
 
     // Se pide al usuario que ingrese id's de dos entregas. //
@@ -65,14 +65,14 @@ void distanciaEntreEntregas(Map *Entregas_id, int numeroEntregas){
     sprintf(num, "%d", id2);
     caracteres2 = strlen(num);
     
-    sprintf(num, "%.4f", distancia);
+    sprintf(num, "%.4lf", distancia);
     caracteres3 = strlen(num);
 
     printf("\n");
     printf(" ");
     for(k = 0; k < caracteres1 + caracteres2 + caracteres3 + 40; k++) printf("-");
 
-    printf("\n| La distancia entre la entrega %d y %d es: %.4f |\n ", id1, id2, distancia);
+    printf("\n| La distancia entre la entrega %d y %d es: %.4lf |\n ", id1, id2, distancia);
 
     for(k = 0; k < caracteres1 + caracteres2 + caracteres3 + 40; k++) printf("-");
     printf("\n\n");

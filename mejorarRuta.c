@@ -9,13 +9,13 @@ typedef struct{
 	int id;
 	int x;
 	int y;
-	float *distancia;
+	double *distancia;
 }Entrega;
 
 typedef struct{
     char nombre[100];
     int *idEntregas;
-    float distanciaTotal;
+    double distanciaTotal;
     int x;
 	int y;
 }Ruta;
@@ -41,7 +41,7 @@ void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int nu
     int id1, id2, i;
     int posicion1, posicion2;
     Entrega *buscadorID = NULL;
-    float distancia;
+    double distancia;
     int diferenciaX, diferenciaY;
 
     //Se pide nombre de ruta//
@@ -274,20 +274,20 @@ void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int nu
 
     // Se hace la comparación con la distancia previa al intercambio //
     if(rutaModificada.distanciaTotal < buscadorNombreRuta->distanciaTotal){
-        printf("Distancia Ruta \"%s\" antes del intercambio: %.4f\n", nombre, buscadorNombreRuta->distanciaTotal);
+        printf("Distancia Ruta \"%s\" antes del intercambio: %.4lf\n", nombre, buscadorNombreRuta->distanciaTotal);
 
         buscadorNombreRuta->distanciaTotal = rutaModificada.distanciaTotal;
         buscadorNombreRuta->idEntregas[posicion1] = id2;
         buscadorNombreRuta->idEntregas[posicion2] = id1;
         
-        printf("Distancia Ruta \"%s\" despues del intercambio: %.4f\n\n", nombre, buscadorNombreRuta->distanciaTotal);
+        printf("Distancia Ruta \"%s\" despues del intercambio: %.4lf\n\n", nombre, buscadorNombreRuta->distanciaTotal);
         
         printf(" ---------------------------\n");
         printf("| Ruta modificada con exito |\n");
         printf(" ---------------------------\n");
     }else{
-        printf("Distancia Ruta \"%s\" antes del intercambio: %.4f\n", nombre, buscadorNombreRuta->distanciaTotal);
-        printf("Distancia Ruta \"%s\" despues del intercambio: %.4f\n\n", nombre, rutaModificada.distanciaTotal);
+        printf("Distancia Ruta \"%s\" antes del intercambio: %.4lf\n", nombre, buscadorNombreRuta->distanciaTotal);
+        printf("Distancia Ruta \"%s\" despues del intercambio: %.4lf\n\n", nombre, rutaModificada.distanciaTotal);
 
         printf(" --------------------\n");
         printf("| Ruta no modificada |\n");

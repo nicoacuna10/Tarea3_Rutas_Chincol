@@ -8,13 +8,13 @@ typedef struct{
     int id;
 	int x;
 	int y;
-	float *distancia;
+	double *distancia;
 }Entrega;
 
 int ordenarDeMenorAMayor(const void *a, const void *b){
     //Funcion que se usa para comparar en qsort//
-    float *ptrA = (float *)a;
-    float *ptrB = (float *)b;
+    double *ptrA = (double *)a;
+    double *ptrB = (double *)b;
 
     return *ptrA - *ptrB;
 }
@@ -33,7 +33,7 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
     // Declaración de variables //
     int x, y, i, diferenciaX, diferenciaY, espacios, j, k;
     int caracteres1, caracteres2;
-    float *DistanciasEP = NULL, *CopiaDistanciasEP = NULL;
+    double *DistanciasEP = NULL, *CopiaDistanciasEP = NULL;
     char num[15];
     
     // Se pide al usuario que ingrese las coordenadas de su ubicación actual. //
@@ -55,7 +55,7 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
 	
     /* Se incializa un arreglo para almacenar las distancias entre las entregas
        y la posición actual. */
-    DistanciasEP = (float*)malloc(numeroEntregas * sizeof(float));
+    DistanciasEP = (double*)malloc(numeroEntregas * sizeof(double));
     if(DistanciasEP == NULL){
         printf("Error en la inicializacion de arreglo en funcion mostrar3EntregasMasCeranas.\n\n");
         exit (1);
@@ -70,14 +70,13 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
         diferenciaX = x - registro1->x;
         diferenciaY = y - registro1->y;
         DistanciasEP[(numeroEntregas-1) - i] = sqrt( pow(diferenciaX, 2) + pow(diferenciaY, 2) );
-        printf("( %d , %d ) - %d : %.4f\n", x, y, registro1->id, DistanciasEP[(numeroEntregas-1) - i]);
         registro1 = (Entrega*) nextMap(Entregas_id);
         i++;
     }
     
     /* Se dimensiona otro arreglo y se hace una copia de las distancias, esto se hace para no perder
        la información de la entrega asociada a la distancia.*/
-    CopiaDistanciasEP = (float *)malloc(numeroEntregas * sizeof(float));
+    CopiaDistanciasEP = (double *)malloc(numeroEntregas * sizeof(double));
     if(CopiaDistanciasEP == NULL){
         printf("Error en la inicializacion de arreglo en funcion mostrar3EntregasMasCercanas.\n\n");
         exit (1);
@@ -88,7 +87,7 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
     }
 
     // Se ordena el arreglo de menor a mayor (distancias más cortas a las más lejanas). //
-    qsort( CopiaDistanciasEP, numeroEntregas, sizeof(float), ordenarDeMenorAMayor);
+    qsort( CopiaDistanciasEP, numeroEntregas, sizeof(double), ordenarDeMenorAMayor);
 
     // Se imprime por pantalla las 3 entregas más cercanas a la posición actual. //
     sprintf(num, "%d", x);
@@ -119,8 +118,8 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
                     espacios = 3 - strlen(num);
                     for( k = 0; k < espacios; k++) printf(" ");
 
-                    printf(" | %.4f", DistanciasEP[j]);
-                    sprintf(num, "%.4f", DistanciasEP[j]);
+                    printf(" | %.4lf", DistanciasEP[j]);
+                    sprintf(num, "%.4lf", DistanciasEP[j]);
                     espacios = 40 + caracteres1 + caracteres2 - strlen(num);
                     for ( k = 0; k < espacios; k++) printf(" ");
                     printf("|\n ");
@@ -145,8 +144,8 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
                     espacios = 3 - strlen(num);
                     for( k = 0; k < espacios; k++) printf(" ");
 
-                    printf(" | %.4f", DistanciasEP[j]);
-                    sprintf(num, "%.4f", DistanciasEP[j]);
+                    printf(" | %.4lf", DistanciasEP[j]);
+                    sprintf(num, "%.4lf", DistanciasEP[j]);
                     espacios = 40 + caracteres1 + caracteres2 - strlen(num);
                     for ( k = 0; k < espacios; k++) printf(" ");
                     printf("|\n ");

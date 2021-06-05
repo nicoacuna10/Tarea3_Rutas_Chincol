@@ -1,1 +1,1 @@
-gcc main.c menu.c Map.c list.c importarArchivoDeCoordenadas.c distanciaEntreEntregas.c mostrar3EntregasMasCercanas.c crearRuta.c mejorarRuta.c  generarRutaAleatoria.c mostrarRutas.c mejorRuta.c -o main
+gcc main.c menu.c Map.c importarArchivoDeCoordenadas.c distanciaEntreEntregas.c mostrar3EntregasMasCercanas.c crearRuta.c mejorarRuta.c  generarRutaAleatoria.c mostrarRutas.c mejorRuta.c -o main

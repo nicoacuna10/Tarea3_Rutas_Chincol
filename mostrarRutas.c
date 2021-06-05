@@ -7,21 +7,21 @@ typedef struct{
 	int id;
 	int x;
 	int y;
-	float *distancia;
+	double *distancia;
 }Entrega;
 
 typedef struct{
     char nombre[100];
     int *idEntregas;
-    float distanciaTotal;
+    double distanciaTotal;
     int x;
 	int y;
 }Ruta;
 
 int ordenarRutas(const void *a, const void *b){
     //Funcion comparar para qsort//
-    float *ptrA = (float *)a;
-    float *ptrB = (float *)b;
+    double *ptrA = (double *)a;
+    double *ptrB = (double *)b;
 
     return *ptrA - *ptrB;
 }
@@ -36,13 +36,13 @@ void mostrarRutas(Map *Rutas_nombre, int numeroEntregas, int numeroRutas){
         return;
     }
 
-    float *DistanciasTotalesRutas = NULL;
-    int i, caracteres, espacios, k;
+    double *DistanciasTotalesRutas = NULL;
+    int i, caracteres, espacios, caracteresCoordenadaX, caracteresCoordenadaY, k;
     char num[10];
     Ruta *aux = NULL;
 
     // Se dimensiona un arreglo para almacenar las distancias totales de cada una de las rutas. //
-    DistanciasTotalesRutas = (float*) malloc(numeroRutas * sizeof(float));
+    DistanciasTotalesRutas = (double *) malloc(numeroRutas * sizeof(double));
     if(DistanciasTotalesRutas == NULL){
         printf("Error en la inicializacion...\n\n");
         exit (1);
@@ -58,24 +58,22 @@ void mostrarRutas(Map *Rutas_nombre, int numeroEntregas, int numeroRutas){
     }
 
     // Se ordena de la mejor a la peor (menor a mayor) //
-    qsort( DistanciasTotalesRutas, numeroRutas, sizeof(float), ordenarRutas);
+    qsort( DistanciasTotalesRutas, numeroRutas, sizeof(double), ordenarRutas);
 
     //Se calcula la cantidad de caracteres tipo espacio que seran necesarios para impresión//
-    if(numeroEntregas == 1 || numeroEntregas == 2){
-        caracteres = 4;
-    }else if(numeroEntregas > 2 && numeroEntregas < 10){
-        caracteres = (numeroEntregas*2 - 1);
-    }else caracteres = (numeroEntregas-9)*3 + 17;
+    if(numeroEntregas < 10){
+        caracteres = (numeroEntregas*3 + 2);
+    }else caracteres = (numeroEntregas-9)*4 + 29;
     
     printf(" ");
-    for( k = 0; k < caracteres + 62; k++) printf("-");
+    for( k = 0; k < caracteres + 101; k++) printf("-");
 
     //Se imprime las rutas a continuación// 
-    printf("\n| NOMBRE                        | RUTA");
-    for(k = 0; k < caracteres - 4; k++) printf(" ");
+    printf("\n| NOMBRE                         | RUTA");
+    for(k = 0; k < caracteres + 34; k++) printf(" ");
     printf(" | DISTANCIA TOTAL RECORRIDA |\n ");
     
-    for( k = 0; k < caracteres + 62; k++) printf("-");
+    for( k = 0; k < caracteres + 101; k++) printf("-");
     printf("\n");
 
     i = 0;
@@ -85,20 +83,29 @@ void mostrarRutas(Map *Rutas_nombre, int numeroEntregas, int numeroRutas){
             printf("| %s", aux->nombre);
             espacios = 30 - strlen(aux->nombre);
             for(k = 0; k < espacios; k++) printf(" ");
-            printf("| ");
+            printf(" | ( %d , %d )->", aux->x, aux->y);
 
             for(k = 0; k < numeroEntregas; k++){
-                printf("%d", aux->idEntregas[k]);
-                if(k < numeroEntregas - 1) printf("-");
+                printf("%d->", aux->idEntregas[k]);
             }
 
-            printf(" | %.4f", aux->distanciaTotal);
-            sprintf(num, "%f", aux->distanciaTotal);
-            espacios = 27 - strlen(num);
+            printf("( %d , %d )", aux->x, aux->y);
+
+            sprintf(num, "%d", aux->x);
+            caracteresCoordenadaX = strlen(num);
+
+            sprintf(num, "%d", aux->y);
+            caracteresCoordenadaY = strlen(num);
+
+            for(k = 0; k < 24 - 2*(caracteresCoordenadaX + caracteresCoordenadaY); k++) printf(" ");
+
+            printf(" | %.4lf", aux->distanciaTotal);
+            sprintf(num, "%.4lf", aux->distanciaTotal);
+            espacios = 25 - strlen(num);
             for(k = 0; k < espacios; k++) printf(" ");
             printf(" |\n ");
 
-            for( k = 0; k < caracteres + 62; k++) printf("-");
+            for( k = 0; k < caracteres + 101; k++) printf("-");
             printf("\n");
             i++;
         }

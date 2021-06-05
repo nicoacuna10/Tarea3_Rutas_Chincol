@@ -8,21 +8,21 @@ typedef struct{
 	int id;
 	int x;
 	int y;
-	float *distancia;
+	double *distancia;
 }Entrega;
 
 typedef struct{
     char nombre[100];
     int *idEntregas;
-    float distanciaTotal;
+    double distanciaTotal;
     int x;
 	int y;
 }Ruta;
 
 int ordenar(const void *a, const void *b){
     //Función de comparación para qsort//
-    float *ptrA = (float *)a;
-    float *ptrB = (float *)b;
+    double *ptrA = (double *)a;
+    double *ptrB = (double *)b;
 
     return *ptrA - *ptrB;
 }
@@ -40,10 +40,11 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
 
     // Declaración de variables. //
     int x, y, i, diferenciaX, diferenciaY, opcionesRestantes, id, l;
-    float *DistanciasEP = NULL, *CopiaDistanciasEP = NULL, distancia;
-    int espacios, j, k, caracteres1, caracteres2, *marcador = NULL;
+    double *DistanciasAEntregas = NULL, *CopiaDistanciasAEntregas = NULL, distancia;
+    int espacios, j, k, caracteres, caracteresCoordenadaX, caracteresCoordenadaY;
+    int *marcador = NULL;
     char num[15];
-    Ruta *R = NULL;
+    Ruta *R = NULL, *registroNombreRuta = NULL;
     Entrega *registro = NULL;
 
 
@@ -51,8 +52,7 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
 
-
-    while(x < -32767|| x > 32767){
+    while(x < -32767 || x > 32767){
         printf("\nIngrese valor de coordenada x valido: ");
         scanf("%d", &x);
     }
@@ -60,40 +60,36 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
     printf("Ingrese coordenada y: ");
     scanf("%d", &y);
 
-    while(y < -32767|| y > 32767){
+    while(y < -32767 || y > 32767){
         printf("\nIngrese valor de coordenada y valido: ");
         scanf("%d", &y);
     }
 
     /* Se dimensiona un arreglo para almacenar las distancias entre la entrega y la
        posición actual. */
-    DistanciasEP = (float*)malloc(numeroEntregas * sizeof(float));
+    DistanciasAEntregas = (double *)malloc(numeroEntregas * sizeof(double));
     
 
-    /* Se calculan las ditancias entre las entregas y la posición actual y se almacenan
+    /* Se calculan las distancias entre las entregas y la posición actual y se almacenan
        en el arreglo. */
-    i = 0;
-    registro = (Entrega*) firstMap(Entregas_id);
-
-    while(registro != NULL){
+    for(i = 0; i < numeroEntregas; i++){
+        id = i + 1;
+        registro = (Entrega*) searchMap(Entregas_id, &id);
         diferenciaX = x - registro->x;
         diferenciaY = y - registro->y;
-        DistanciasEP[(numeroEntregas-1) - i] = sqrt( pow(diferenciaX, 2) + pow(diferenciaY, 2) );
-        printf("( %d , %d ) - %d : %.4f\n", x, y, registro->id, DistanciasEP[(numeroEntregas-1) - i]);
-        registro = (Entrega*) nextMap(Entregas_id);
-        i++;
+        DistanciasAEntregas[i] = sqrt( pow(diferenciaX, 2) + pow(diferenciaY, 2) );
     }
 
     /* Se dimensiona otro arreglo y se hace una copia de las distancias, esto se hace para no perder
        la información de la entrega asociada a la distancia.*/
-    CopiaDistanciasEP = (float *)malloc(numeroEntregas * sizeof(float));
+    CopiaDistanciasAEntregas = (double *)malloc(numeroEntregas * sizeof(double));
 
     for(i = 0; i < numeroEntregas; i++){
-        CopiaDistanciasEP[i] = DistanciasEP[i];
+        CopiaDistanciasAEntregas[i] = DistanciasAEntregas[i];
     }
 
     // Se ordena el arreglo de menor a mayor (distancias más cortas a las más lejanas). //
-    qsort( CopiaDistanciasEP, numeroEntregas, sizeof(float), ordenar);
+    qsort( CopiaDistanciasAEntregas, numeroEntregas, sizeof(double), ordenar);
 
     /* Se dimesiona un arreglo para marcar los id´s ocpuados para construir la ruta.
        Se inicializan todas las casillas del arreglo cero para indicar que no se han
@@ -117,37 +113,37 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
     l = 0;
 
     sprintf(num, "%d", x);
-    caracteres1 = strlen(num);
+    caracteresCoordenadaX = strlen(num);
 
     sprintf(num, "%d", y);
-    caracteres2 = strlen(num);
+    caracteresCoordenadaY = strlen(num);
 
     printf(" ");
-    for(k = 0; k < caracteres1 + caracteres2 + 47; k++) printf("-");
+    for(k = 0; k < caracteresCoordenadaX + caracteresCoordenadaY + 47; k++) printf("-");
 
     printf("\n| ID  | DISTANCIA DESDE POSICION ACTUAL ( %d , %d ) |\n ", x, y);
 
-    for(k = 0; k < caracteres1 + caracteres2 + 47; k++) printf("-");
+    for(k = 0; k < caracteresCoordenadaX + caracteresCoordenadaY + 47; k++) printf("-");
     printf("\n");
 
     for( i = 0; i < numeroEntregas; i++){
 
         for(j = 0; j < numeroEntregas; j++){
 
-            if(CopiaDistanciasEP[i] == DistanciasEP[j]){
+            if(CopiaDistanciasAEntregas[i] == DistanciasAEntregas[j]){
 
                 printf("| %d", j + 1);
                 sprintf(num, "%d", j+1);
                 espacios = 3 - strlen(num);
                 for( k = 0; k < espacios; k++) printf(" ");
 
-                printf(" | %.4f", DistanciasEP[j]);
-                sprintf(num, "%.4f", DistanciasEP[j]);
-                espacios = 40 + caracteres1 + caracteres2 - strlen(num);
+                printf(" | %.4lf", DistanciasAEntregas[j]);
+                sprintf(num, "%.4lf", DistanciasAEntregas[j]);
+                espacios = 40 + caracteresCoordenadaX + caracteresCoordenadaY - strlen(num);
                 for ( k = 0; k < espacios; k++) printf(" ");
                 printf("|\n ");
 
-                for(k = 0; k < caracteres1 + caracteres2 + 47; k++) printf("-");
+                for(k = 0; k < caracteresCoordenadaX + caracteresCoordenadaY + 47; k++) printf("-");
                 printf("\n");
 
             }
@@ -168,7 +164,7 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
 
     // Se almacena en el arreglo el id ingresado y se suma la distancia acumulada. //
     R->idEntregas[l] = id;
-    R->distanciaTotal += DistanciasEP[id-1];
+    R->distanciaTotal += DistanciasAEntregas[id-1];
 
     opcionesRestantes--;
     l++;
@@ -181,51 +177,51 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
 
         for(i = 0; i < numeroEntregas; i++){
             if(marcador[i] == 0){
-                DistanciasEP[i] = registro->distancia[i];
-            }else DistanciasEP[i] = -1;
-            printf("%.4f\n", DistanciasEP[i]);
+                DistanciasAEntregas[i] = registro->distancia[i];
+            }else DistanciasAEntregas[i] = -1;
+
         }
 
         // Se copian las distancias en otro arreglo para ordenar de menor a mayor. //
         for(i = 0; i < numeroEntregas; i++){
-            CopiaDistanciasEP[i] = DistanciasEP[i];
+            CopiaDistanciasAEntregas[i] = DistanciasAEntregas[i];
         }
 
 	    // Se ordena el arreglo de menor a mayor (distancias más cortas a las más lejanas). //
-        qsort( CopiaDistanciasEP, numeroEntregas, sizeof(float), ordenar);
+        qsort( CopiaDistanciasAEntregas, numeroEntregas, sizeof(double), ordenar);
 	    
 	    // Se imprime por pantlla las distancias hacia las entregas disponibles. //
 
 
         sprintf(num, "%d", id);
-        caracteres1 = strlen(num);
+        caracteres = strlen(num);
 
         printf(" ");
-        for(k = 0; k < caracteres1 + 33; k++) printf("-");
+        for(k = 0; k < caracteres + 33; k++) printf("-");
 
         printf("\n| ID  | DISTANCIA DESDE ENTREGRA %d |\n ", id);
 
-        for(k = 0; k < caracteres1 + 33; k++) printf("-");
+        for(k = 0; k < caracteres + 33; k++) printf("-");
         printf("\n");
 
         for( i = 0; i < numeroEntregas; i++){
 
             for(j = 0; j < numeroEntregas; j++){
 
-                if(CopiaDistanciasEP[i] == DistanciasEP[j] && DistanciasEP[j] != -1){
+                if(CopiaDistanciasAEntregas[i] == DistanciasAEntregas[j] && DistanciasAEntregas[j] != -1){
 
                     printf("| %d", j + 1);
                     sprintf(num, "%d", j+1);
                     espacios = 3 - strlen(num);
                     for( k = 0; k < espacios; k++) printf(" ");
 
-                    printf(" | %.4f", DistanciasEP[j]);
-                    sprintf(num, "%f", DistanciasEP[j]);
-                    espacios = 28 + caracteres1 - strlen(num);
+                    printf(" | %.4lf", DistanciasAEntregas[j]);
+                    sprintf(num, "%.4lf", DistanciasAEntregas[j]);
+                    espacios = 28 + caracteres - strlen(num);
                     for ( k = 0; k < espacios; k++) printf(" ");
                     printf("|\n ");
                     
-                    for(k = 0; k < caracteres1 + 33; k++) printf("-");
+                    for(k = 0; k < caracteres + 33; k++) printf("-");
                     printf("\n");
 
                 }
@@ -248,7 +244,7 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
 
         // Se almacena en el arreglo el id ingresado y se suma la distancia acumulada. //	
         R->idEntregas[l] = id;
-        R->distanciaTotal += DistanciasEP[id-1];
+        R->distanciaTotal += DistanciasAEntregas[id-1];
 	    
         opcionesRestantes--;
         l++;
@@ -266,51 +262,64 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
     R->distanciaTotal += distancia;
 
     // Se imprime por pantalla la ruta (secuencia de id's de cada entrega) y la distancia total recorrida. //
-    if(numeroEntregas == 1 || numeroEntregas == 2){
-        caracteres1 = 4;
-    }else if(numeroEntregas > 2 && numeroEntregas < 10){
-        caracteres1 = (numeroEntregas*2 - 1);
-    }else caracteres1 = (numeroEntregas-9)*3 + 17;
+    if(numeroEntregas < 10){
+        caracteres = (numeroEntregas*3 + 2);
+    }else caracteres = (numeroEntregas-9)*4 + 29;
     
     printf(" ");
-    for( k = 0; k < caracteres1 + 30; k++) printf("-");
+    for( k = 0; k < caracteres + 2 * (caracteresCoordenadaX + caracteresCoordenadaY) + 44; k++) printf("-");
     printf("\n");
 
     printf("| RUTA");
-    for( k = 0; k < caracteres1 - 4; k++) printf(" ");
+    for( k = 0; k < caracteres + 2 *(caracteresCoordenadaX + caracteresCoordenadaY) + 10; k++) printf(" ");
     printf(" | DISTANCIA TOTAL RECORRIDA |\n ");
 
-    for( k = 0; k < caracteres1 + 30; k++) printf("-");
-    printf("\n| ");
+    for( k = 0; k < caracteres + 2 *(caracteresCoordenadaX + caracteresCoordenadaY) + 44; k++) printf("-");
+
+    printf("\n| ( %d , %d )->", R->x, R->y);
 
     for( i = 0; i < numeroEntregas; i++){
-        printf("%d", R->idEntregas[i]);
-        if(i < numeroEntregas-1) printf("-");
+        printf("%d->", R->idEntregas[i]);
     }
 
-    if(numeroEntregas == 1) for(k = 0; k < 3; k++) printf(" ");
-    if(numeroEntregas == 2) printf(" ");
+    printf("( %d , %d )", R->x, R->y);
 
-    printf(" | %.4f", R->distanciaTotal);
-    sprintf(num, "%f", R->distanciaTotal);
-    espacios = 27 - strlen(num);
+    printf(" | %.4lf", R->distanciaTotal);
+    sprintf(num, "%.4lf", R->distanciaTotal);
+    espacios = 25 - strlen(num);
     for( k = 0; k < espacios; k++) printf(" ");
     printf(" |\n ");
     
-    for( k = 0; k < caracteres1 + 30; k++) printf("-");
+    for( k = 0; k < caracteres + 2 * (caracteresCoordenadaX + caracteresCoordenadaY) + 44; k++) printf("-");
     printf("\n");
 
     // Se pide al usuario que ingrese un nombre para la ruta. //
     printf("\nIngrese nombre de ruta: ");
     scanf("%s", R->nombre);
 
+    /* Se busca si existe otra ruta con el nombre ingresado. Si existe se pide al usuario
+    que ingrese otro hasta que ingrese un nombre no existente en el mapa. */
+    registroNombreRuta = (Ruta*) searchMap(Rutas_nombre, R->nombre);
+
+    while( registroNombreRuta != NULL){
+        caracteres = strlen(R->nombre);
+        printf(" ");
+        for(k = 0; k < caracteres + 27; k++) printf("-");
+        printf("\n| Existe ruta con nombre \"%s\" |\n ", R->nombre);
+        for(k = 0; k < caracteres + 27; k++) printf("-");
+        printf("\n\nIngrese otro nombre: ");
+        scanf("%s", R->nombre);
+
+        registroNombreRuta = (Ruta *) searchMap(Rutas_nombre, R->nombre);
+    }
+
     // Se agrega la ruta al mapa de rutas. //
     insertMap(Rutas_nombre, R->nombre, R);
 
     (*numeroRutas)++;
 
-    free(DistanciasEP);
-    free(CopiaDistanciasEP);
+    free(DistanciasAEntregas);
+    free(CopiaDistanciasAEntregas);
     free(marcador);
 
     getchar();
