@@ -51,8 +51,8 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
 
-    //REVISAR SI ES MEJOR AMPLIAR EL RANGO O NO!!!!!!!//
-    while(x < -9999 || x > 9999){
+
+    while(x < -32767|| x > 32767){
         printf("\nIngrese valor de coordenada x valido: ");
         scanf("%d", &x);
     }
@@ -60,7 +60,7 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
     printf("Ingrese coordenada y: ");
     scanf("%d", &y);
 
-    while(y < -9999 || y > 9999){
+    while(y < -32767|| y > 32767){
         printf("\nIngrese valor de coordenada y valido: ");
         scanf("%d", &y);
     }
@@ -156,14 +156,23 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
         //FIN TESTING :D//
     }
 
+    //Se limpia 'distanciaEP' con sus datos para usarlo para guardar las rutas//     
+    for(i = 0; i < numeroEntregas; i++) distanciaEP[i] = 0.00;
 
-    distanciaEP = (float*)malloc(numeroEntregas * sizeof(float));
-
+    //Se almancena distancia total de cada ruta//
     for(i = 0; i < numeroEntregas; i++){
         distanciaEP[i] = distanciaMasCorta[i].distanciaTotal;
     }
 
+    //Se ordenan de manera creciente las rutas en función de su distancia total//
     qsort( distanciaEP, numeroEntregas, sizeof(float), comparar);
+
+    /*
+        Se busca la distancia más corta en el 'distanciaMasCorta' hasta encontrar la 
+        distancia que tiene la ruta de la casilla cero del vector 'distnaciaEp'.
+        Luego De eso se agrega a la posición cero de 'distanciaMasCorta', para lograr 
+        tener en la primera casilla, la ruta más eficiente.
+    */
 
     for(i = 0; i < numeroEntregas; i++){
         if(distanciaEP[0] == distanciaMasCorta[i].distanciaTotal){
@@ -185,6 +194,7 @@ void mejorRuta(Map *entregas_id, Map *rutas_nombre, int *numeroRutas, int numero
         }
     }
 
+    //Se inserta mejor ruta encontrada en el mapa//
     insertMap(rutas_nombre, distanciaMasCorta->nombre, distanciaMasCorta);
 
     // Se imprime por pantalla la ruta (secuencia de id's de cada entrega) y la distancia total recorrida. //

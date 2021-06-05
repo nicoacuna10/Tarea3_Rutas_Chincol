@@ -205,7 +205,9 @@ void mejorarRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int nu
     rutaModificada.idEntregas[posicion1] = id2;
     rutaModificada.idEntregas[posicion2] = id1;
 
-    // Se hace las sumas de las distancias luego del intercambio. //
+    /* Se hace las sumas de las distancias luego del intercambio. 
+       los distintos if son para no salirse del rango de casillas que posee el vector.
+    */
     buscadorID = (Entrega*) searchMap(Entregas_id, &id2);
     if(posicion1 > 0 && posicion1 < numeroEntregas - 1){
 

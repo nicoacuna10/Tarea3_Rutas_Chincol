@@ -39,8 +39,8 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
     // Se pide al usuario que ingrese las coordenadas de su ubicación actual. //
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
-    //COMENTARIO: HAY QUE VER SI TOMAMOS EL RANGO DE LOS TIPO INT MEJOR//
-    while(x < -9999 || x > 9999){
+
+    while(x < -32767|| x > 32767){
         printf("\nIngrese valor de coordenada x valido: ");
         scanf("%d", &x);
     }
@@ -48,7 +48,7 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
     printf("Ingrese coordenada y: ");
     scanf("%d", &y);
 
-    while(y < -9999 || y > 9999){
+    while(y < -32767|| y > 32767){
         printf("\nIngrese valor de coordenada y valido: ");
         scanf("%d", &y);
     }
@@ -105,7 +105,7 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
     for(k = 0; k < caracteres1 + caracteres2 + 47; k++) printf("-");
     printf("\n");
 
-    // Comentario: El else es cuando solo hay dos entregas cierto ?//
+    //Caso donde entregas es mayor a 3//
     if( numeroEntregas >= 3){
 
         for( i = 0; i < 3; i++){
@@ -131,8 +131,9 @@ void mostrar3EntregasMasCercanas(Map *Entregas_id, int numeroEntregas){
                 }
             }
         }
+    //Caso donde entregas es menor a 3//
     }else{
-
+    
         for( i = 0; i < numeroEntregas; i++){
 
             for(j = 0; j < numeroEntregas; j++){

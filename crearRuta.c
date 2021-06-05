@@ -50,9 +50,9 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
     // Se pide al usuario que ingrese las coordenadas de su posición actual. //
     printf("Ingrese coordenada x: ");
     scanf("%d", &x);
-    
-    //Cometnario: nuevamente necesitamos ver si dejamos el intervalo para los posibles numeros int//
-    while(x < -9999 || x > 9999){
+
+
+    while(x < -32767|| x > 32767){
         printf("\nIngrese valor de coordenada x valido: ");
         scanf("%d", &x);
     }
@@ -60,7 +60,7 @@ void crearRuta(Map *Entregas_id, Map *Rutas_nombre, int numeroEntregas, int *num
     printf("Ingrese coordenada y: ");
     scanf("%d", &y);
 
-    while(y < -9999 || y > 9999){
+    while(y < -32767|| y > 32767){
         printf("\nIngrese valor de coordenada y valido: ");
         scanf("%d", &y);
     }

@@ -88,6 +88,7 @@ void importarArchivoDeCoordenadas(char *nombre_archivo, Map **Entregas_id, int *
         printf("|Ingrese de nuevo a la funcion y coloque archivo txt adecuado.                    |\n");
         printf(" ---------------------------------------------------------------------------------\n\n");
         rewind(fp);
+        fclose(fp);
         return;
     }
 
