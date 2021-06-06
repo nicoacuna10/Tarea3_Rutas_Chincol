@@ -130,7 +130,6 @@ void generarRutaAleatoria(Map *Entregas_id, Map *Rutas_nombre, int numeroEntrega
     // Se suma la distancia calculada a la distancia acumulada. //
     R->distanciaTotal += distancia;
 
-    // Se imprime por pantalla la ruta (secuencia de id's de cada entrega) y la distancia total recorrida. //
 
     // Se imprime por pantalla la ruta (secuencia de id's de cada entrega) y la distancia total recorrida. //
     if(numeroEntregas < 10){
