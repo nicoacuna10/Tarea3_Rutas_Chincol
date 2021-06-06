@@ -126,7 +126,7 @@ void mejorRuta(Map *Entregas_id, Map *Rutas_nombre, int *numeroRutas, int numero
                 }else vectorDeDistancias[j] = aux->distancia[j];
             }
 
-            //Se ordena de manera creciente 'distnaciasEp'//
+            //Se ordena de manera creciente 'vectorDeDistancias'//
             qsort(vectorDeDistancias, numeroEntregas, sizeof(double), comparar);
 
             /* Se recorre el arreglo del entrega id que contiene las distancias a otras entregas, y se busca la distancia
@@ -158,7 +158,7 @@ void mejorRuta(Map *Entregas_id, Map *Rutas_nombre, int *numeroRutas, int numero
        
     }
 
-    //Se limpia 'distanciaEP' con sus datos para usarlo para guardar las rutas//     
+    //Se limpia 'vectorDeDistancias' con sus datos para usarlo para guardar las distancias totales de las mejores rutas//     
     for(i = 0; i < numeroEntregas; i++) vectorDeDistancias[i] = 0.00;
 
     //Se almancena distancia total de cada ruta//
